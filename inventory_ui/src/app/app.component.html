@@ -1,68 +1,75 @@
-<div class="container">
+<div>
     
   <div class="header">
-    <a id="ctl00_linkhome2" class="logo"></a>
-    <img alt="RajSWAN Logo" src="C:\Users\Pawan\inventory\inventory_ui\stl.jpg" />
-    <div class="logo">Welcome To RajSWAN Electricity & Inventory Portal</div>
+    <a id="ctl00_linkhome2" class="logo">
+      <img class="img-logo" alt="RajSWAN Logo" src="../assets/stl_logo.png"> 
+    </a>
+    
+    <div class="logo">Welcome To RajSWAN Inventory Portal</div>
     <div class="navbar">
-        <a><p>Welcome</p></a>
+        <a>Welcome</a>
         <a href="#admin">Admin</a>
         <a href="#Change Password">(Change Password)</a>
         <a href="#Logout">Logout</a>
     </div>
         
     </div>
-    
+
     <div class="">
+      <div class="">
+        <div class="dropdown p-2">
+        <a href="#master">Master</a>
+        <div class="dropdown-content">
+            <a routerLink="/system-item">System Item</a>            
+            <a routerLink="/master-items">Master Items</a>            
+        </div>
+      </div>
+      
       <div class="dropdown p-2">
       <a href="#inventory">Inventory</a>
       <div class="dropdown-content">
-          <a href="http://10.70.231.40/RajSWAN_Int/newreading/VerticalSiteInventory_1.aspx?xDistrictName=Jaipur&xBlockName=SDC">SHQ Site Inventory</a>
-          <a href="http://10.70.231.40/RajSWAN_Int/newreading/DistrictInventoryVertical.aspx">Vertical DHQ/BHQ Sites Inventory</a>
-          <a href="http://10.70.231.40/RajSWAN_Int/newreading/verticalitemlog.aspx">Vertical Inventory Log Daywise</a>
-          <a href="http://10.70.231.40/RajSWAN_Int/newreading/DistrictInventoryHOl.aspx?comisiontype=ALL">All HO Sites Inventory</a>
-          <a href="http://10.70.231.40/RajSWAN_Int/newreading/verticalitemlogHO.aspx">HO Site Inventory Log Daywise</a>
-          <a href="http://10.70.231.40/RajSWAN_Int/newreading/HOInventorysearch.aspx">HO Inventory Search Options</a>
-
+          <a href=>SHQ Site Inventory</a>
+          <a href=>Vertical DHQ/BHQ Sites Inventory</a>
+          <a href=>Vertical Inventory Log Daywise</a>
+          <a href=>All HO Sites Inventory</a>
+          <a href=>HO Site Inventory Log Daywise</a>
+          <a href=>HO Inventory Search Options</a>
+          <a routerLink="/shq">Go to SHQ Component </a>
+            
       </div>
     </div>
+   
+
+    <div class="dropdown p-2">
+      <a href="#siteshifting">Site Shifting</a>
+            <div class="dropdown-content">
+                <a href=>Entry For HO Site Shiftting</a>
+                <a href=>Show HO Site Shiftting</a>
+                <a href=>HO Site Shiftting Status</a>
+          </div>
+        </div>
+       
+        
     <div class="dropdown p-2">
       <a href="#inventoryreports">Inventory Reports</a>
             <div class="dropdown-content">
-                <a href="http://10.70.231.40/RajSWAN_Int/newreading/Itemworkingstatusreport.aspx">Item Working Status</a>
-                <a href="http://10.70.231.40/RajSWAN_Int/newreading/SHowAllItemworkingstatus.aspx">Item wise Status</a>
+                <a href=>Item Working Status</a>
+                <a href=>Item wise Status</a>
           </div>
         </div>
-</div>
 
-   
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>44</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>88</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td colspan="2">Larry the Bird</td>
-      <td>33</td>
-    </tr>
-  </tbody>
-</table>
+    <div class="dropdown p-2">
+      <a href="#sparemanagement">Spare Management</a>
+            <div class="dropdown-content">
+                <a href=>Spare Management</a>
+                <a href=>Other Item  Complaint Report</a>
+                <a href=>CISCO  Item  Complaint Report</a>
+                <a href=>Other Item Inventory Log</a>
+                <a href=>CISCO Item Inventory Log</a>
+                <a href=>Other Item Report</a>
+                <a href=>CISCO Item Report</a>
+              </div>
+            </div>    
+      </div>
+      <router-outlet></router-outlet>        
 </div>

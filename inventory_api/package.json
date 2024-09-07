@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
     "express": "^4.19.2",
     "msnodesqlv8": "^4.2.1",
     "mssql": "^11.0.1",
@@ -17,6 +19,5 @@
     "mysql2": "^3.10.3",
     "tedious": "^18.3.0"
   },
-  "devDependencies": {},
   "description": ""
 }
