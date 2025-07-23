@@ -1,0 +1,70 @@
+div class="container">
+
+  <h4>Show Inventory Vertical</h4>
+  <div *ngIf="verticalLists.length > 0">
+    <table class="table table-striped table-bordered">
+    <thead>
+     <tr>
+        <th  scope="col">Sr No</th>
+        <th scope="col"> District</th>
+        <th> Target Sites</th>
+        <th> Router Qty</th>
+        <th>Ip Phones Qty</th>
+        <th>LAN Switch Qty</th>
+        <th>Modem (G.73) Qty</th>
+        <th>Modem (V.35) Qty</th>
+        <th>Closed Rack Qty</th>
+        <th>UTP Patch Panel Qty</th>
+        <th>UTP Patch Cord -7ft Qty</th>
+        <th>Information Outlets Qty</th>
+        <th>50 Pair Shielded Cable Qty</th>
+        <th>50 Pair Wiring Block Pair Qty</th>
+        <th>AC Qty</th>
+        <th>steplizer Qty</th>
+        <th>UPS Qty</th>
+        <th>OVCD Qty</th>
+        <th>Battery Qty</th>
+        <th>Anti Virus Software Client Qty</th>
+        <th>Earthpit Qty</th>
+        <th>Moniter Qty</th>
+        <th>CPU Qty</th>
+        <th>KeyBoard Qty</th>
+        <th>Mouse Qty</th>
+        <th>Webcam withWeb-based Surveilance Software Qty</th>
+        <th>Voice Gateway Qty</th>
+        <th>DG Set Qty</th>
+     </tr>
+    </thead>
+    <tbody>
+     <tr *ngFor="let item of verticalLists">
+       <td scope="row">{{ item['Sr No'] }}</td>
+       <td scope="row">{{ item['District'] }}</td>
+       <td>{{ item['Target Sites'] }}</td>
+       <td>{{ item['Router Qty'] }}</td>
+       <td>{{ item['Ip Phones Qty'] }}</td>
+       <td>{{ item['LAN Switch Qty'] }}</td>
+       <td>{{ item['Modem (G.73) Qty'] }}</td>
+       <td>{{ item['Modem (V.35) Qty'] }}</td>
+       <td>{{ item['Closed Rack Qty'] }}</td>
+       <td>{{ item['UTP Patch Panel Qty'] }}</td>
+       <td>{{ item['UTP Patch Cord -7ft Qty'] }}</td>
+       <td>{{ item['Information Outlets Qty'] }}</td>
+       <td>{{ item['50 Pair Shielded Cable Qty'] }}</td>
+       <td>{{ item['50 Pair Wiring Block Pair Qty'] }}</td>
+       <td>{{ item['AC Qty'] }}</td>
+       <td>{{ item['steplizer Qty'] }}</td>
+       <td>{{ item['UPS Qty'] }}</td>
+       <td>{{ item['OVCD Qty'] }}</td>
+       <td>{{ item['Battery Qty'] }}</td>
+       <td>{{ item['Anti Virus Software Client Qty'] }}</td>
+       <td>{{ item['Earthpit Qty'] }}</td>
+       <td>{{ item['Moniter Qty'] }}</td>
+       <td>{{ item['CPU Qty'] }}</td>
+       <td>{{ item['KeyBoard Qty'] }}</td>
+       <td>{{ item['Webcam withWeb-based Surveilance Software Qty'] }}</td>
+       <td>{{ item['Voice Gateway Qty'] }}</td>
+       <td>{{ item['DG Set Qty'] }}</td>
+     </tr>
+     </tbody>
+     </table>
+  </div>

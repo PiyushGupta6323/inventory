@@ -1,0 +1,58 @@
+<div class="container">
+    <h3>Show HO Sites Shifting Request   test</h3>
+   
+    </div>
+
+
+    <table  class="table table-striped table-bordered">
+        <thead>
+        <tr>
+        <th scope="col">Sr. No.</th>
+        <th scope="col">District</th>
+        <th scope="col">Block</th>
+        <th scope="col">HO Id</th>
+        <th scope="col">Building Code</th>
+        <th scope="col">Username</th>
+        <th scope="col">IP Address</th>
+        <th scope="col">Last Updated</th>
+        <th scope="col">Update Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let item of paginatedItems; let i = index">
+        <td>{{ i + 1 + (currentPage - 1) * itemsPerPage }}</td>
+        <td>{{ item.District_name }}</td>
+        <td>{{ item.Block_name }}</td>
+        <td>{{ item.HO_id }}</td>
+        <td>{{ item.Current_Building_Code }}</td>
+              <td>{{ item.user_name }}</td>
+              <td>{{ item.Ip_address }}</td>
+              <td>{{ item.Last_modified }}</td>
+              <td>{{ item.Status }}</td>
+        </tr>
+        </tbody>
+        </table>
+
+
+        <nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <li class="page-item"><a class="page-link">Previous</a></li>
+    <li class="page-item">Page {{ currentPage }} of {{ totalPages }}</li>
+   
+    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+  </ul>
+</nav>
+         
+                <div>
+        <button (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
+        <span>Page {{ currentPage }} of {{ totalPages }}</span>
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+        </div>
+ 
+
+
+   
+      
+
+
+   

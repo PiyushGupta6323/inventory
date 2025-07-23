@@ -1,0 +1,15 @@
+.card {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.table th,
+.table td {
+  vertical-align: middle;
+  font-size: 14px;
+}
+
+input[type='text'],
+select,
+input[type='date'] {
+  font-size: 14px;
+}

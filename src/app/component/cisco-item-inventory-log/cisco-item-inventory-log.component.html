@@ -1,0 +1,29 @@
+<div class="container mt-3">
+    <h2>CISCO Item Inventory Log</h2>
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Sr No</th>
+                <th>District Name</th>
+                <th>Block Name</th>
+                <th>Item Name</th>
+                <th>Item Serial No</th>
+                <th>Item Status</th>
+                <th>Tracking No</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody> 
+            <tr *ngFor="let item of inventoryLogs; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ item.District }}</td>
+                <td>{{ item.Block }}</td>
+                <td>{{ item.Item_name }}</td>
+                <td>{{ item.item_sr_no }}</td>
+                <td>{{ item.item_status }}</td>
+                <td>{{ item.Track_no }}</td>
+                <td>{{ item.Lastmodified_date | date:'short' }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

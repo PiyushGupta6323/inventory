@@ -1,0 +1,115 @@
+<div class="container">
+    <h2>Other Item Complain Details</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Site Id</th>
+                <th>District Name</th>
+                <th>Block Name</th>
+                <th>Department/Office/Type</th>
+                <th>Item Name</th>
+                <th>Old Faulty Item Serial No</th>
+                <th>Select Item Type</th>
+                <th>New Item Serial No</th>
+                <th>HDMS Ticket No</th>
+                <th>HDMS Change Order No</th>
+                <th>Ticket Status</th>
+                <th>Complaint Date</th>
+                <th>Complaint Engineer Name</th>
+                <th>Complaint Engineer Mobile No</th>
+                <th>Remark</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of itemComplaints">
+                <td>{{ item.Site_id }}</td>
+                <td>{{ item.District_Name }}</td>
+                <td>{{ item.Block_name }}</td>
+                <td>{{ item.Department_name }}</td>
+                <td>{{ item.Item_name }}</td>
+                <td>{{ item.Old_serial_no }}</td>
+                <td>{{ item.Item_Type }}</td>
+                <td>{{ item.New_serial_no }}</td>
+                <td>{{ item.HDMS_tiket_no }}</td>
+                <td>{{ item.Chnage_orderno }}</td>
+                <td>{{ item.Tiket_status }}</td>
+                <td>{{ item.Created_on }}</td>
+                <td>{{ item.Engineer_name }}</td>
+                <td>{{ item.Engineer_mobileno }}</td>
+                <td>{{ item.Remark }}</td>
+                <td>
+                    <a class="action-replace" (click)="replaceItem(item.Site_id)">Replace</a> ||
+                    <a class="action-delete" (click)="itemDelete(item.Id)">Delete</a>
+                </td>                  
+            </tr>
+        </tbody>
+    </table>
+    
+    <!-- Modal -->
+<div #replaceItemModal class="modal fade bd-example-modal-lg"  tabindex="-1" role="dialog" aria-labelledby="replaceItem" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="replaceItemModalTitle"> Replace Complaint item</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" (click)="closeReplacePopup()">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+            <form [formGroup]="replaceItemForm" (ngSubmit)="onUpdate()">
+                <div class="form-group">
+                    <label for="siteId">Site Id</label>
+                    <input type="text" formControlName="Site_id"  class="form-control"  required />
+                </div>
+                <div class="form-group">
+                    <label for="DistrictName">District Name :</label>
+                    <input type="text" formControlName="District_Name"  class="form-control"  required />
+                </div>
+                <div class="form-group">
+                    <label for="Blockname">Block Name :</label>
+                    <input type="text" formControlName="Block_name"  class="form-control"  required />
+                </div>
+                <div class="form-group">
+                    <label for="Departmentname">Department/ Office/ Type :</label>
+                    <input type="text" formControlName="Department_name"  class="form-control"  required />
+                </div>
+                <div class="form-group">
+                    <label for="Itemname">Item Name</label>
+                    <input type="text" formControlName="Item_name"  class="form-control"  required />
+                </div>
+                <div class="form-group">
+                    <label for="Oldserialno">faulty(old) Item serial no</label>
+                    <input type="text" formControlName="Old_serial_no"  class="form-control"  required />
+                </div>
+                <div class="form-group">
+                    <label for="ItemType">Select Item Type</label>
+                    <input type="text" formControlName="Item_Type"  class="form-control"  required />
+                </div>
+                <div class="form-group">
+                    <label for="Itemname">Replace With</label>
+                    <input type="text" formControlName="Item_name"  class="form-control"  required />
+                </div>
+                <div class="form-group">
+                    <label for="Newserialno">Select Replaced (new)item serial no</label>
+                    <input type="text" formControlName="New_serial_no"  class="form-control"  required />
+                </div>
+                <div class="form-group">
+                    <label for="HDMStiketno">HDMS Tiket No</label>
+                    <input type="text" formControlName="HDMS_tiket_no"  class="form-control"  required />
+                </div>
+                <div class="form-group">
+                    <label for="Chnageorderno">Change Order No</label>
+                    <input type="text" formControlName="Chnage_orderno"  class="form-control"  required />
+                </div>
+                <div class="form-group">
+                    <label for="Remark">Remark</label>
+                    <input type="text" formControlName="Remark"  class="form-control"  required />
+                </div>
+              
+                <div class="form-group">
+                    <button type="button" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-secondary" >Back</button>
+                </div>
+            </form>

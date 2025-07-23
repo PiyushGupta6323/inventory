@@ -1,0 +1,87 @@
+<div class="container">
+
+    <form class="form-group" [formGroup]="masterItemForm">
+
+        <div class="form-group">
+            <label for="ItemName">Item Name</label>
+            <input type="text" id="itemName" class="form-control" formControlName="item_name" />
+        </div>
+
+
+        <div class="form-group">
+            <label for="itemType">Item Type</label>
+            <select class="custom-select custom-select-lg mb-3" formControlName="item_type" class="form-control"
+                [(ngModel)]="currentItemType">
+                <option *ngFor="let itemType of ItemTypes" [ngValue]="itemType">{{itemType}}</option>
+            </select>
+        </div>
+
+
+        <div class="form-group">
+            <label>Is HDMS</label>
+            <label class="label">
+                <input type="checkbox" formControlName="HDMS" name="HDMS" value="false" />
+            </label>
+        </div>
+
+
+        <div class="form-group">
+            <label>Active</label>
+            <label class="label">
+                <input type="checkbox" formControlName="active" class="checkbox">
+            </label>
+
+        </div>
+
+        <div class="form-group">
+            <label for="make_and_model"> Make And Model</label>
+            <input type="text" id="make_and_model" class="form-control" formControlName="make_and_model" />
+        </div>
+        <div class="form-group">
+            <label for="location_identifire">Location Identifire</label>
+            <input type="text" id="location_identifire" class="form-control" formControlName="location_identifire" />
+        </div>
+
+
+        <button type="submit" class="btn btn-primary" (click)="editMode ? onUpdate() : onSave()"> {{ editMode ? 'Update'
+            : 'Save' }}</button>
+    </form>
+
+
+    
+
+    <div *ngIf="masterItemList.length > 0">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">Sr No</th>
+                    <th scope="col"> Item Name</th>
+                    <th scope="col"> Item Type</th>
+                    <th scope="col">Is HDMS</th>
+                    <th scope="col"> Is Active</th>
+                    <th scope="col"> Make And Model</th>
+                    <th scope="col"> Location Identifire</th>
+                    <th scope="col">Action</th>
+                                      
+
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr *ngFor="let item of masterItemList">
+                    <td scope="row">{{ item['Id'] }}</td>
+                    <td scope="row">{{ item['Item_name'] }}</td>
+                    <td>{{ item['item_type'] }}</td>
+                    <td>{{ item['Is_HDMS'] }}</td>
+                    <td>{{ item['Is_active'] }}</td>
+                    <td scope="row">{{ item['Make_And_Model'] }}</td>
+                    <td scope="row">{{ item['LocationIdentifire'] }}</td>
+                    <td><a class="action-edit" (click)="masterItemsEdit(item['Id'])">Edit</a>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

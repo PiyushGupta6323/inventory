@@ -1,0 +1,78 @@
+<div class="container">
+    <h3>🔄 Replace Complaint Item</h3>
+  
+    <form (ngSubmit)="onSubmit()" #replaceItemForm="ngForm">
+      <div class="form-group">
+        <label>Site Id:</label>
+        <input type="text" class="form-control" [(ngModel)]="replaceItem.Site_id" name="Site_id" required />
+      </div>
+  
+      <div class="form-group">
+        <label>District Name:</label>
+        <input type="text" class="form-control" [(ngModel)]="replaceItem.District_Name" name="District_Name" required />
+      </div>
+  
+      <div class="form-group">
+        <label>Block Name:</label>
+        <input type="text" class="form-control" [(ngModel)]="replaceItem.Block_Name" name="Block_Name" required />
+      </div>
+  
+      <div class="form-group">
+        <label>Department/ Office/ Type:</label>
+        <input type="text" class="form-control" [(ngModel)]="replaceItem.Department_Name" name="Department_Name" required />
+      </div>
+  
+      <div class="form-group">
+        <label>Item Name:</label>
+        <input type="text" class="form-control" [(ngModel)]="replaceItem.Item_Name" name="Item_Name" required />
+      </div>
+  
+      <div class="form-group">
+        <label>Faulty (old) Item Serial No:</label>
+        <input type="text" class="form-control" [(ngModel)]="replaceItem.Old_serial_no" name="Old_serial_no" required />
+      </div>
+  
+      <div class="form-group">
+        <label>Select Item Type:</label>
+        <select class="form-control" [(ngModel)]="replaceItem.Item_Type" name="Item_Type" required>
+          <option value="Other">Other</option>
+          <option value="OVCD">OVCD</option>
+        </select>
+      </div>
+  
+      <div class="form-group">
+        <label>Replace With:</label>
+        <input type="text" class="form-control" [(ngModel)]="replaceItem.Replace_With" name="Replace_With" required />
+      </div>
+  
+      <div class="form-group">
+        <label>Select Replaced (new) Item Serial No:</label>
+        <select class="form-control" [(ngModel)]="replaceItem.New_serial_no" name="New_serial_no" required>
+          <option value="">Select</option>
+          <option *ngFor="let serial of serialNumbers" [value]="serial">{{ serial }}</option>
+        </select>
+      </div>
+  
+      <div class="form-group">
+        <label>HDMS Ticket No:</label>
+        <input type="text" class="form-control" [(ngModel)]="replaceItem.HDMS_tiket_no" name="HDMS_tiket_no" required />
+      </div>
+  
+      <div class="form-group">
+        <label>Change Order No:</label>
+        <input type="text" class="form-control" [(ngModel)]="replaceItem.Chnage_orderno" name="Chnage_orderno" required />
+      </div>
+  
+      <div class="form-group">
+        <label>Remark:</label>
+        <select class="form-control" [(ngModel)]="replaceItem.Remark" name="Remark" required>
+          <option value="Equipment Faulty">Equipment Faulty</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+  
+      <button type="submit" class="btn btn-primary">Save</button>
+      <button type="button" class="btn btn-secondary" (click)="onCancel()">Back</button>
+    </form>
+  </div>
+  

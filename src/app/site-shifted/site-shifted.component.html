@@ -1,0 +1,92 @@
+<div class="container">
+  <h4>HO Site Shifted</h4>
+  <div class="form-group">
+    <label for="districtSelect">Select a District</label>
+    <select id="districtSelect" class="form-control" [(ngModel)]="selectedDistrict" name="districtSelect"
+      (change)="fetchBlocks($event)">
+      <option *ngFor="let district of allDistrictList" [value]="district.Id">
+        {{ district.District_name }}
+      </option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="blockSelect">Select a Block</label>
+    <select id="blockSelect" class="form-control" [(ngModel)]="selectedBlock" name="blockSelect"
+      (change)="fetchHOD($event)">
+      <option *ngFor="let block of blocks" [value]="block.Id">
+        {{ block.Block_name }}
+      </option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="blockSelect">Select a hodId</label>
+    <select id="hodIdSelect" class="form-control" [(ngModel)]="selectedHodId" name="hodIdSelect"
+      (change)="fetchHODDetail($event)">
+      <option *ngFor="let hodId of hodIds" [value]="hodId.Id">
+        {{ hodId.HO_id }}
+      </option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label>Department Name :</label>
+    <span *ngIf="hodIdsList">
+      {{ hodIdsList.Current_HO_Department }}
+    </span>
+  </div>
+
+  <div class="form-group">
+    <label>Building Code :</label>
+    <span *ngIf="hodIdsList">
+      {{hodIdsList.Current_Building_Code}}</span>
+   
+  </div>
+  <div class="form-group">
+    <label>Name Of Office :</label>
+    <span *ngIf="hodIdsList">
+      {{hodIdsList.Current_HO_office}}</span>
+  </div>
+  <div class="form-group">
+    <label>Proposed Connectivity Type :</label>
+    <span *ngIf="hodIdsList">
+      {{hodIdsList.Current_Proposed_connectivity}}</span>
+  </div>
+  <div class="form-group">
+    <label>Commission Connectivity Type :</label>
+    <span *ngIf="hodIdsList">
+      {{hodIdsList.Current_Actual_Connectivity}}</span>
+  </div>
+  <div class="form-group">
+    <label>Commition Bandwidth :</label>
+    <span *ngIf="hodIdsList">
+      {{hodIdsList.Commissioned_Bandwidth}}</span>
+  </div>
+  <div class="form-group">
+    <label>Commition Date :</label>
+    <span *ngIf="hodIdsList">
+      {{hodIdsList.Commissioning_date | date:'dd/MM/yyyy'}}</span>
+  </div>
+  <div class="form-group">
+    <label>Installation Date :</label>
+    <span *ngIf="hodIdsList">
+      {{hodIdsList.Current_HO_Installation_Date }}</span>
+  </div>
+
+  <form class="form-group" [formGroup]="siteShiftedForm">
+
+  <div class="form-group">
+    <label for="blockSelect">Old Address</label>
+    <input type="text" id="OldAddress" class="form-control" formControlName="oldAddress" />
+  </div>
+    
+
+  <div class="form-group">
+     <label for="blockSelect">New Address</label>
+     <input type="text" id="NewAddress" class="form-control" formControlName="NewAddress" />
+  </div>
+    <button type="submit" class="btn btn-primary" (click)="onUpdate()">Save</button>
+  </form>
+
+</div>

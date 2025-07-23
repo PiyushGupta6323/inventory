@@ -1,0 +1,33 @@
+<!-- <div class="container"> -->
+    <div class="panel panel-default"></div>
+    <h6>Add Department</h6>
+    <div class="panel-body">
+        <div class="form-group">
+          <label for="Department">Department</label>
+          <input type="text" id="department" [(ngModel)]="DepartmentName" class="form-control" placeholder="Enter Department" />
+        </div>
+        <button class="btn btn-primary" (click)="saveDepartment()">Save</button>
+      </div>
+    <div *ngIf="departmentList.length > 0">
+        <table class="table table-striped table-bordered">
+            <thead>
+             <tr>
+                <th scope="col">Sr No</th>
+                <th scope="col">Department</th>
+                <th scope="col">Action</th>
+             </tr>
+            </thead>
+            <tbody>
+             
+             <tr *ngFor="let item of departmentList">
+                <td scope="row">{{ item['Id'] }}</td>
+                <td scope="row">{{ item['Department_name' ]}}</td>
+                <td><a class="action-edit" (click)="departmentEdit(item['Id'])">Edit</a>
+                    ||
+                    <a class="action-delete" (click)="departmentDelete(item['Íd'])">Delete</a></td>
+             </tr>
+            </tbody>
+        </table>
+    </div>
+
+<!-- </div> -->

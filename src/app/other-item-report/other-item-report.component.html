@@ -1,0 +1,286 @@
+<!-- Filter Panel -->
+<div class="card p-2 mb-2">
+  <h5 class="mb-3"><i class="fa fa-edit"></i> Show Other Item Report</h5>
+
+  <div class="form-row align-items-end">
+    <div class="form-group col-md-3">
+      <label>Select Item</label>
+      <select [(ngModel)]="filter.itemName" class="form-control">
+        <option value="">Select</option>
+        <option *ngFor="let item of itemList" [value]="item">{{ item }}</option>
+      </select>
+    </div>
+
+    <div class="form-group col-md-3">
+      <label>Select Report Type</label>
+      <select [(ngModel)]="filter.reportType" class="form-control">
+        <option *ngFor="let type of reportTypes" [value]="type">{{ type }}</option>
+      </select>
+    </div>
+
+    <div class="form-group col-md-2">
+      <label>From Date</label>
+      <input type="date" class="form-control" [(ngModel)]="filter.fromDate" />
+    </div>
+
+    <div class="form-group col-md-2">
+      <label>To Date</label>
+      <input type="date" class="form-control" [(ngModel)]="filter.toDate" />
+    </div>
+
+    <div class="form-group col-md-2">
+      <button class="btn btn-primary btn-block" (click)="applyFilter()">Show</button>
+    </div>
+  </div>
+</div>
+
+<!-- Data Table Panel -->
+<div class="card p-2">
+  <h5 class="mb-3"><i class="fa fa-edit"></i> Show Other Item Report</h5>
+
+  <div class="d-flex justify-content-between mb-2">
+    <div>
+      <label>
+        <select class="form-control form-control-sm">
+          <option>10</option>
+          <option>25</option>
+          <option>50</option>
+        </select> records per page
+      </label>
+    </div>
+
+    <div>
+      <label>
+        Search:
+        <input
+          type="text"
+          class="form-control form-control-sm d-inline-block w-auto"
+          [(ngModel)]="searchText"
+        />
+      </label>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-sm" id="other-item-table">
+      <thead class="thead-light">
+        <tr>
+          <th>Sr No</th>
+          <th>District Name</th>
+          <th>Item Name</th>
+          <th>Item Serial No</th>
+          <th>Item Status</th>
+          <th>Tracking detail</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of itemsFiltered(); let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ item.District_Name }}</td>
+          <td>{{ item.Item_name || item.Item_Name }}</td>
+          <td>{{ item.Item_Serial_no }}</td>
+          <td>{{ item.Working_or_Foulty || item.Item_Status }}</td>
+          <td>{{ item.Track_no }}</td>
+          <td>{{ item.Date }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="d-flex justify-content-between align-items-center mt-2">
+    <div>Showing 1 to {{ items.length }} of {{ items.length }} entries</div>
+    <div>
+      <ul class="pagination pagination-sm mb-0">
+        <li class="page-item disabled">
+          <a class="page-link">← Previous</a>
+        </li>
+        <li class="page-item active">
+          <a class="page-link">1</a>
+        </li>
+        <li class="page-item disabled">
+          <a class="page-link">Next →</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- <button class="btn btn-success btn-sm mt-2" (click)="exportToExcel()">Export To Excel</button> -->
+</div>
+
+
+    <!-- <button class="btn btn-success" (click)="exportToExcel()">Export To Excel</button> -->
+  <!-- </div>
+</div> -->
+
+
+
+<!-- <h3>🔁 Show Other Item Report</h3>
+<div>
+  <label>select Item</label>
+  <select [(ngModel)]="selectedItem" name="selectedItem">
+    <option value="">Select</option>
+    <option *ngFor="let item of items" [value]="item">{{ item }}</option>
+  </select>
+
+  <label>select Report Type</label>
+  <select [(ngModel)]="selectedReportType" name="selectedReportType">
+   <option value="">Select</option> 
+    <option *ngFor="let type of reportTypes" [value]="type">{{ type }}</option>
+  </select>
+
+  <label>From Date:</label>
+  <input type="date" [(ngModel)]="fromDate" name="fromDate">
+  <label>To Date:</label>
+  <input type="date" [(ngModel)]="toDate" name="toDate">
+  <button (click)="showReport()">Show</button>
+</div>
+
+
+<table *ngIf="reportData && reportData.length > 0" border="1">
+  <thead>
+    <tr>
+      <th>Sr No</th>
+      <th>District Name</th>
+      <th>Item Name</th>
+      <th>Item Serial No</th>
+      <th>Item Status</th>
+      <th>Track No</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of reportData">
+      <td>{{ row.SrNo }}</td>
+      <td>{{ row.District_Name }}</td>
+      <td>{{ row.Item_name }}</td>
+      <td>{{ row.Item_Serial_no }}</td>
+      <td>{{ row.Working_or_Foulty }}</td>
+      <td>{{ row.Track_no }}</td>
+      <td>{{ row.Date }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<p *ngIf="reportData && reportData.length === 0">No data found.</p> -->
+
+
+
+
+
+
+
+<!-- <h3>🔁 Show Other Item Report</h3>
+<div>
+  <label>select Item</label>
+  <select [(ngModel)]="selectedItem">
+    <option *ngFor="let item of items">{{ item }}</option>
+  </select>
+
+  <label>select Report Type</label>
+  <select [(ngModel)]="selectedReportType">
+    <option *ngFor="let type of reportTypes">{{ type }}</option>
+  </select>
+
+  <label>From Date:</label>
+  <input type="date" [(ngModel)]="fromDate">
+  <label>To Date:</label>
+  <input type="date" [(ngModel)]="toDate">
+  <button (click)="showReport()">Show</button>
+</div>
+
+<table *ngIf="reportData.length > 0">
+  <thead>
+    <tr>
+      <th>Sr No</th><th>District Name</th><th>Item Name</th><th>Item Serial No</th>
+      <th>Item Status</th><th>Tracking Detail</th><th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of reportData">
+      <td>{{ row.SrNo }}</td>
+      <td>{{ row.District_Name }}</td>
+      <td>{{ row.Item_name }}</td>
+      <td>{{ row.Item_Serial_no }}</td>
+      <td>{{ row.Working_or_Foulty }}</td>
+      <td>{{ row.Track_no }}</td>
+      <td>{{ row.Date }}</td>
+    </tr>
+  </tbody>
+</table> -->
+
+
+
+
+<!-- <div class="report-container">
+    <h2>Other Item Report</h2>
+    <form (ngSubmit)="onShowReport()" #reportForm="ngForm">
+
+        <label for="itemSelect">Select Item</label>
+        <select id="itemSelect" [(ngModel)]="selectedItem" name="selectedItem" required>
+            <option value="">Select</option>
+            <option *ngFor="let item of itemList" [value]="item">{{ item }}</option>
+        </select>
+
+        <label for="reportType">Select Report Type</label>
+        <select id="reportType" [(ngModel)]="reportType" name="reportType" required>
+            <option value="">Select</option>
+            <option *ngFor="let type of reportTypeList" [value]="type">{{ type }}</option>
+        </select>
+
+        <label for="fromDate"> From Date :</label>
+        <input type="date" id="fromDate" [(ngModel)]="fromDate" name="fromDate" required>
+        
+        
+        <label for="toDate"> To Date :</label>
+        <input type="date" id="toDate" [(ngModel)]="toDate" name="toDate" required>
+
+        <button type="submit">Show</button>
+
+    </form>
+
+    <div *ngIf="reportData && reportData.length > 0" style="margin-top: 20px;">
+        <h3>Report Results</h3>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Item Name</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
+</div>
+
+
+ <div class="container mt-3">
+    <h2>Other Item Report</h2>
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="table-dark">
+          <tr>
+            <th>Sr No</th>
+            <th>District Name</th>
+            <th>Item Name</th>
+            <th>Item Serial No</th>
+            <th>Item Status</th>
+            <th>Tracking Detail</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of reportData; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ item.District_Name }}</td>
+                <td>{{ item.Item_Name }}</td>
+                <td>{{ item.Item_Serial_no }}</td>
+                <td>{{ item.Item_Status }}</td>
+                <td>{{ item.Track_no }}</td>
+                <td>{{ item.Date | date: 'dd-MMM-yyyy' }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div> --> 

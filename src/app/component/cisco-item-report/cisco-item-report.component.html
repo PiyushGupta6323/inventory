@@ -1,0 +1,101 @@
+<div class="card p-3">
+  <h4>📋 Show CISCO Item Report</h4>
+
+  <div class="row mb-3 align-items-end">
+    <div class="col-md-3">
+      <label>Select Item:</label>
+      <select class="form-control" [(ngModel)]="itemFilter">
+        <option value="">All Items</option>
+        <option *ngFor="let item of uniqueItemNames" [value]="item">
+          {{ item }}
+        </option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <label>From Date:</label>
+      <input type="date" [(ngModel)]="fromDate" class="form-control">
+    </div>
+    <div class="col-md-2">
+      <label>To Date:</label>
+      <input type="date" [(ngModel)]="toDate" class="form-control">
+    </div>
+    <div class="col-md-2">
+      <button class="btn btn-primary w-100" (click)="applyFilters()">Show</button>
+    </div>
+    <div class="col-md-3">
+      <label>Search:</label>
+      <input type="text" class="form-control" [(ngModel)]="searchText" placeholder="Search...">
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover">
+      <thead class="table-light">
+        <tr>
+          <th>Sr No</th>
+          <th>District Name</th>
+          <th>Block Name</th>
+          <th>Item Name</th>
+          <th>Item Serial No</th>
+          <th>Item Status</th>
+          <th>Tracking detail</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of filteredItems | paginate: { itemsPerPage: pageSize, currentPage: currentPage }; let i = index">
+          <td>{{ (currentPage - 1) * 10 + i + 1 }}</td>
+          <td>{{ item.DistrictName }}</td>
+          <td>{{ item.BlockName }}</td>
+          <td>{{ item.ItemName }}</td>
+          <td>{{ item.ItemSerialNo }}</td>
+          <td>{{ item.ItemStatus }}</td>
+          <td>{{ item.TrackingDetail }}</td>
+          <td>{{ item.Date }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+  </div>
+</div>
+
+
+<!-- <div class="card p-3">
+  <h3>📋 Show CISCO Item Report</h3>
+
+  <div class="mb-2">
+    <input type="text" class="form-control w-25 d-inline-block" [(ngModel)]="searchText" placeholder="Search..." />
+    <button class="btn btn-success float-end" (click)="exportToExcel()">Export To Excel</button>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Sr No</th>
+          <th>District Name</th>
+          <th>Block Name</th>
+          <th>Item Name</th>
+          <th>Item Serial No</th>
+          <th>Item Status</th>
+          <th>Tracking Detail</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of filteredData(); let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ item.DistrictName }}</td>
+          <td>{{ item.BlockName }}</td>
+          <td>{{ item.ItemName }}</td>
+          <td>{{ item.ItemSerialNo }}</td>
+          <td>{{ item.ItemStatus }}</td>
+          <td>{{ item.TrackingDetail }}</td>
+          <td>{{ item.Date }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="btn btn-success float-end" (click)="exportToExcel()">Export To Excel</button>
+
+  </div>
+</div> -->

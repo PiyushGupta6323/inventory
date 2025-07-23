@@ -1,0 +1,87 @@
+<div class="panel panel-default"></div>
+    <h6>Add District</h6>
+    <div class="panel-body">
+      <div class="form-group">
+        <label for="district">District</label>
+        <input type="text" id="district" [(ngModel)]="districtName" class="form-control" placeholder="Enter District" />
+      </div>
+      <button class="btn btn-primary" (click)="saveDistrict()">Save</button>
+    </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">Show District</div>
+    <div class="panel-body">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Sr No.</th>
+            <th>District</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let district of districts; let i = index">
+            <td>{{ i + 1 }}</td>
+
+
+            <td>{{district.District_name}}</td>
+            <td>
+              <button class="btn btn-primary" (click)="editDistrict(i)">Edit</button>
+              ||
+              <button class="btn btn-danger" (click)="deleteDistrict(i)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+<!-- <div class="container">
+
+     <h4>Add District</h4>
+    <form class="form-group" [formGroup]="districtForm">
+
+        <div class="form-group">
+            <label for="DistrictName">District Name</label>
+            <input type="text" id="district" class="form-control" formControlName="District_name" />
+        </div>
+        <button type="submit" class="btn btn-primary" (click)="editMode ? onUpdate() : onSave()"> {{ editMode ? 'Update'
+            : 'Save' }}</button>
+    </form>
+            <div *ngIf="districtNameList.length > 0">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col"> District Name</th>
+                            <th scope="col"> Created On</th>
+                            <th scope="col">LastModified On</th>
+                            <th scope="col"> Is Active</th>
+                            <th scope="col"> Id Deleted</th>
+        
+                        </tr>
+                    </thead>
+                    <tbody>
+        
+                        <tr *ngFor="let item of masterItemList">
+                            <td scope="row">{{ item['Id'] }}</td>
+                            <td scope="row">{{ item['District_name'] }}</td>
+                            <td>{{ item['Created_on'] }}</td>
+                            <td>{{ item['LastModified_on'] }}</td>
+                            <td>{{ item['Isactive'] }}</td>
+                            <td scope="row">{{ item['Iddelete'] }}</td>
+        
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        
+</div> -->
+        
+
+
+        
+
+
+        
+
