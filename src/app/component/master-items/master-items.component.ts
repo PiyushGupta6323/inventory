@@ -28,7 +28,8 @@ export class MasterItemsComponent implements OnInit {
   editMode: boolean = false;
   currentItemId: number = -1;
   currentItemType: string = "";
-
+  currentLocationIdentifire: string = "";
+  LocationIdentifires = ["H", "V", "both"];
   constructor(private masterItemsService: MasterItemsService,
     private fb: FormBuilder, private shqService: ShqService,
 
@@ -112,6 +113,7 @@ export class MasterItemsComponent implements OnInit {
       }
     });
     this.currentItemType = masterItemById.item_type;
+    this.currentLocationIdentifire = masterItemById.LocationIdentifire;
     this.masterItemForm.patchValue({
       item_name: masterItemById.Item_name,
       item_type: masterItemById.item_type,

@@ -1,40 +1,42 @@
-<div class="panel panel-default"></div>
-    <h6>Add District</h6>
-    <div class="panel-body">
-      <div class="form-group">
-        <label for="district">District</label>
-        <input type="text" id="district" [(ngModel)]="districtName" class="form-control" placeholder="Enter District" />
+<div class="container mt-4">
+  <h2>Add District</h2>
+
+  <form [formGroup]="districtForm" (ngSubmit)="onSubmit()" class="mb-3 border p-3 rounded bg-light">
+    <div class="row">
+      <div class="col-md-4">
+        <label>District Name</label>
+        <input type="text" formControlName="District_name" class="form-control" required>
       </div>
-      <button class="btn btn-primary" (click)="saveDistrict()">Save</button>
     </div>
 
-  <div class="panel panel-default">
-    <div class="panel-heading">Show District</div>
-    <div class="panel-body">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Sr No.</th>
-            <th>District</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let district of districts; let i = index">
-            <td>{{ i + 1 }}</td>
+    <button type="submit" class="btn btn-primary mt-3">
+      {{ editMode ? 'Update' : 'Add' }}
+    </button>
+    <button *ngIf="editMode" type="button" class="btn btn-secondary mt-3 ms-2" (click)="cancelEdit()">Cancel</button>
+  </form>
 
+  <table class="table table-bordered mt-3">
+    <thead class="table-dark">
+      <tr>
+        <th>Sr No</th>
+        <th>District</th> 
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let d of districts">
+        <td>{{d.Id}}</td>
+        <td>{{d.District_name}}</td>
+        <td>
+          <a class="action-edit" (click)="editDistrict(d)">Edit</a> |
+          <a class="action-delete" (click)="deleteDistrict(d.Id)">Delete</a>
+        </td>
 
-            <td>{{district.District_name}}</td>
-            <td>
-              <button class="btn btn-primary" (click)="editDistrict(i)">Edit</button>
-              ||
-              <button class="btn btn-danger" (click)="deleteDistrict(i)">Delete</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+       
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 <!-- <div class="container">
 

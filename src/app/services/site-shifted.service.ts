@@ -6,47 +6,65 @@ import { catchError, map, Observable, throwError } from 'rxjs';
   providedIn: 'root'
 })
 export class SiteShiftedService {
-  baseUrl  = 'http://localhost:5000/api/'
+  baseUrl  = 'http://localhost:5000/api'
   apiUrl: any;
+  getHODByBlockId: any;
+  getHODDetailById: any;
 
   constructor(private http: HttpClient) { }
 
+  // ✅ District-level aggregation (Image 1)
+  getDistrictSummary(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/shifting/district-summary`);
+  }
+
+  // ✅ Block-level data (Image 2)
+  getBlockSummary(districtId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/shifting/block-summary/${districtId}`);
+  }
+
   getAllDistrict(): Observable<any[]> {
-    return this.http.get<any>(this.baseUrl + "alldistrict").pipe(
-      map(response => response || []) // Access the 'recordset' array
-    );
+     return this.http.get<any[]>(`${this.baseUrl}/alldistrict`);
   }
 
 
-  getBlocksByDistrictId(districtId: any): Observable<any> {
-    return this.http.get(`${this.baseUrl}blockbydistrictid/${districtId}`);
+  getBlocksByDistrictId(districtId: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}/blockbydistrictid/${districtId}`);
   }
 
   getHodsByBlockId(blockId: any): Observable<any> {
-    return this.http.get(`${this.baseUrl}hodbyblockid/${blockId}`);
+    return this.http.get(`${this.baseUrl}/hodbyblockid/${blockId}`);
   }
 
   getHodsListByHodId(hodId: any): Observable<any> {
-    return this.http.get(`${this.baseUrl}dataByHodId/${hodId}`);
+    return this.http.get(`${this.baseUrl}/dataByHodId/${hodId}`);
   }
 
-  getAddressByHodId(hodId: any): Observable<any> {
-    return this.http.get(`${this.baseUrl}hodbyadress/${hodId}`);
+  insertSiteShift(data: FormData): Observable<any> {
+    return this.http.post(`${this.baseUrl}/site-shift`, data);
   }
-// POST method
-createItems(data: any): Observable<any> {
-  const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-  });
-  return this.http.post(`${this.baseUrl}create-address`, data, { headers });
-}
 
-updateSiteShifted(data: any): Observable<any> {
-  const headers = new HttpHeaders({
-    'Content-Type': 'application/json',
-  });
-  return this.http.post(`$(this.baseUrl)update-address`, data, { headers });
+  getSiteShiftRequests(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/site-shift/list`);
+  }
+
+  getSummary(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/site-shift/summary`);
+  }
+
+  // Status page APIs
+  getStatusByHoId(hoId: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/site-shift/status/${hoId}`);
+  }
+
+  updateStatusByHoId(hoId: number, payload: any): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/site-shift/status/${hoId}`, payload);
+  }
+  getHodDetails(hoId: number) {
+  return this.http.get<any>(`${this.baseUrl}/dataByHodId/${hoId}`);
 }
+ getRequestStatus(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/site-shift/request-status`);
+  }
   
-
 }

@@ -6,42 +6,31 @@ import { map, Observable, throwError } from 'rxjs';
   providedIn: 'root'
 })
 export class DepartmentService {
-  baseUrl = 'http://localhost:5000/api/'
-
-
+  baseUrl = 'http://localhost:5001/api'
+ 
 
   constructor(private http: HttpClient) { }
 
-  // POST method
-  createItems(data: any): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-    return this.http.post(`${this.baseUrl}create-item`, data, { headers });
-  }
-
-  updateDepartment(data: any): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-    return this.http.post(`${this.baseUrl}update-item`, data, { headers });
-  }
-
   getDepartment(): Observable<any[]> {
-    return this.http.get<any>(`${this.baseUrl}department`).pipe(
-      map(response => response || []) // Access the 'recordset' array
-    );
+    return this.http.get<any[]>(`${this.baseUrl}/department`);
   }
 
-  private handleError(error: HttpErrorResponse) {
-    if (error.error instanceof ErrorEvent) {
-      // Client-side error
-      console.error('An error occurred:', error.error.message);
-    } else {
-      // Server-side error
-      console.error(`Backend returned code ${error.status}, body was: ${error.error}`);
-    }
-    // Return an observable with a user-facing error message
-    return throwError('Something bad happened; please try again later.');
+  // POST method
+  addDepartment(department: any): Observable<string> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.post(`${this.baseUrl}/department`, department, { headers, responseType: 'text' as const });
+  }
+
+  updateDepartment(id: number, department: any): Observable<string> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.put(`${this.baseUrl}/department/${id}`, department, { headers, responseType: 'text' as const });
+  }
+
+  deleteDepartment(id: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/department/${id}`, { responseType: 'text' as const });
   }
 }

@@ -1,0 +1,74 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div>
+    <label>District</label>
+    <select formControlName="districtId" (change)="onDistrictChange($any($event.target).value)">
+      <option [ngValue]="null">Select</option>
+      <option *ngFor="let d of districts" [value]="d.Dist_id">{{ d.District_name }}</option>
+    </select>
+  </div>
+  <div>
+    <label>Block</label>
+    <select formControlName="blockId" (change)="onBlockChange($any($event.target).value)">
+      <option [ngValue]="null">Select</option>
+      <option *ngFor="let b of blocks" [value]="b.Block_id">{{ b.Block_name }}</option>
+    </select>
+  </div>
+  <div>
+    <label>HO ID</label>
+    <select formControlName="hodId" (change)="onHodChange($any($event.target).value)">
+      <option [ngValue]="null">Select</option>
+      <option *ngFor="let h of hods" [value]="h.HO_id">{{ h.HO_id }}</option>
+    </select>
+  </div>
+  <!-- HO Details Section -->
+  <div *ngIf="hodDetails" class="ho-details-section">
+    <h3>HO Details</h3>
+    <div class="form-group">
+      <label>Department Name:</label>
+      <span>{{ hodDetails.Current_HO_Department }}</span>
+    </div>
+    <div class="form-group">
+      <label>Building Code:</label>
+      <span>{{ hodDetails.Current_Building_Code }}</span>
+    </div>
+    <div class="form-group">
+      <label>Name Of Office:</label>
+      <span>{{ hodDetails.Current_HO_office }}</span>
+    </div>
+    <div class="form-group">
+      <label>Proposed Connectivity Type:</label>
+      <span>{{ hodDetails.Current_Proposed_connectivity }}</span>
+    </div>
+    <div class="form-group">
+      <label>Commission Connectivity Type:</label>
+      <span>{{ hodDetails.Current_Actual_Connectivity }}</span>
+    </div>
+    <div class="form-group">
+      <label>Commission Bandwidth:</label>
+      <span>{{ hodDetails.Commissioned_Bandwidth }}</span>
+    </div>
+    <div class="form-group">
+      <label>Commission Date:</label>
+      <span>{{ hodDetails.Commissioning_date | date:'dd/MM/yyyy' }}</span>
+    </div>
+    <div class="form-group">
+      <label>Installation Date:</label>
+      <span>{{ hodDetails.Current_HO_Installation_Date | date:'dd/MM/yyyy' }}</span>
+    </div>
+  </div>
+  <div>
+    <label>Old Address</label>
+    <input formControlName="oldAddress" />
+  </div>
+  <div>
+    <label>New Address</label>
+    <input formControlName="newAddress" />
+  </div>
+  <div>
+    <label>Upload Govt Letter</label>
+    <input type="file" (change)="onFileChange($event)" />
+  </div>
+  <button type="submit">Save</button>
+</form>
+
+

@@ -9,9 +9,9 @@ import { BlocksComponent } from './blocks/blocks.component';
 import { DepartmentComponent } from './department/department.component';
 import { DesignationComponent } from './designation/designation.component';
 import { UserComponent } from './user/user.component';
-import { SiteShiftedComponent } from './site-shifted/site-shifted.component';
-import { ShowSiteShiftedComponent } from './component/show-site-shifted/show-site-shifted.component';
-import { HoSiteShiftingStatusComponent } from './component/ho-site-shifting-status/ho-site-shifting-status.component';
+import { SiteShiftFormComponent } from './component/site-shift-form/site-shift-form.component';
+import { SiteShiftListComponent } from './component/site-shift-list/site-shift-list.component';
+import { SiteShiftStatusComponent } from './component/site-shift-status/site-shift-status.component';
 import { SpareMgmtComponent } from './component/spare-mgmt/spare-mgmt.component';
 import { OtherItemComplainComponent } from './component/other-item-complain/other-item-complain.component';
 import { ReplaceComplaintItemComponent } from './component/replace-complaint-item/replace-complaint-item.component';
@@ -20,7 +20,9 @@ import { OtherItemInventoryLogComponent } from './component/other-item-inventory
 import { CiscoItemInventoryLogComponent } from './component/cisco-item-inventory-log/cisco-item-inventory-log.component';
 import { OtherItemReportComponent } from './other-item-report/other-item-report.component';
 import { CiscoItemReportComponent } from './component/cisco-item-report/cisco-item-report.component';
-
+import { SiteShiftRequestStatusComponent } from './component/site-shift-request-status/site-shift-request-status.component';
+import { SiteShiftReportComponent } from './component/site-shift-report/site-shift-report.component';
+import { BlockSiteShiftReportComponent } from './component/block-site-shift-report/block-site-shift-report.component';
 
 const routes: Routes = [ 
  
@@ -32,11 +34,15 @@ const routes: Routes = [
   { path: 'department', component: DepartmentComponent },
   { path: 'designation', component: DesignationComponent },
   { path: 'user', component: UserComponent },
-  { path: 'site-shifted', component: SiteShiftedComponent },
-  { path: 'show-site-shifted', component: ShowSiteShiftedComponent },
-  { path: 'ho-site-shifting-status', component: HoSiteShiftingStatusComponent },
+  { path: 'site-shift-form', component: SiteShiftFormComponent },
+  { path: 'site-shift-list', component: SiteShiftListComponent },
+  { path: 'site-shift-status/:hoId', component: SiteShiftStatusComponent },
+  { path: 'site-shift-request-status', component: SiteShiftRequestStatusComponent },
+  { path: 'site-shift-report', component: SiteShiftReportComponent },
+  { path:  'block-site-shift-report', component: BlockSiteShiftReportComponent },
+  { path: 'shifting/block-summary/:districtId', component: BlockSiteShiftReportComponent },
   { path: 'spare-mgmt', component: SpareMgmtComponent },
-  { path: 'item-complain', component: OtherItemComplainComponent },
+  
   //{ path: '', redirectTo: '/system-item', pathMatch: 'full'}  //Redirect to create/edit path
   { path: 'replace-complaint-item/:siteId', component: ReplaceComplaintItemComponent },
   { path: 'cisco-item', component: CiscoItemComponent },
@@ -46,8 +52,6 @@ const routes: Routes = [
   { path: 'cisco-item-report', component: CiscoItemReportComponent },
   { path: '', redirectTo: '/cisco-item', pathMatch: 'full' },
   { path: '**', redirectTo: '/cisco-item' },
-  
-  
   
 ];
 

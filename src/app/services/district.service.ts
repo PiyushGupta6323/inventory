@@ -6,52 +6,28 @@ import { catchError, map, Observable, throwError } from 'rxjs';
   providedIn: 'root'
 })
 export class DistrictService {
-  baseUrl  = 'http://localhost:3000/api/'
+  private baseUrl = 'http://localhost:5001/api';
   apiUrl: any;
 
   constructor(private http: HttpClient) { }
-  getDistrictData(): Observable<any[]> {
-    return this.http.get<any>(this.baseUrl + "district").pipe(
-      map(response => response || []) // Access the 'recordset' array
-    );
+
+  getDistricts(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/district`);
   }
 
-   // POST method
- createItems(data: any): Observable<any> {
-  const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-  });
-  return this.http.post(`${this.baseUrl}create-item`, data, { headers });
-  (catchError(this.handleError)
-);
-}
-
-updateDistrict(data: any): Observable<any> {
-  const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-  });
-  return this.http.post(`${this.baseUrl}update-item`, data, { headers });
-  (catchError(this.handleError)
-);
-}
-
-getDistrict(): Observable<any[]> {
-  return this.http.get<any>(`${this.baseUrl}district`).pipe(
-    map(response => response || []) // Access the 'recordset' array
-  );
-}
-
-private handleError(error: HttpErrorResponse) {
-  if (error.error instanceof ErrorEvent) {
-    // Client-side error
-    console.error('An error occurred:', error.error.message);
-  } else {
-    // Server-side error
-    console.error(`Backend returned code ${error.status}, body was: ${error.error}`);
+  // POST method
+  addDistrict(district: any): Observable<string> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(`${this.baseUrl}/district`, district, { headers, responseType: 'text' as const });
   }
-  // Return an observable with a user-facing error message
-  return throwError('Something bad happened; please try again later.');
-}
-  
+
+  updateDistrict(id: number, district: any): Observable<string> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.put(`${this.baseUrl}/district/${id}`, district, { headers, responseType: 'text' as const });
+  }
+
+  deleteDistrict(id: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/district/delete/${id}`, { responseType: 'text' as const });
+  }
 }
     

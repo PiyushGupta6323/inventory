@@ -1,0 +1,43 @@
+<div>
+  <input placeholder="Search" [(ngModel)]="filter" />
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>District</th>
+      <th>Block</th>
+      <th>HO Id</th>
+      <th>Building Code</th>
+      <th>User</th>
+      <th>IP Address</th>
+      <th>Last Updated</th>
+      <th>Update Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let r of filtered | slice:(page-1)*pageSize:(page)*pageSize">
+      <td>{{ r.District }}</td>
+      <td>{{ r.Block }}</td>
+      <td>{{ r.HO_id }}</td>
+      <td>{{ r.Building_Code }}</td>
+      <td>{{ r.user_name }}</td>
+      <td>{{ r.Ip_address }}</td>
+      <td>{{ r.Last_modified | date:'dd-MMM-yyyy' }}</td>
+      <td>
+        <button (click)="goToUpdate(r.HO_id)">Update Status</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div>
+  <button (click)="page = Math.max(1, page-1)">Previous</button>
+  <span>{{ page }}</span>
+  <button (click)="page = page + 1" [disabled]="page*pageSize >= filtered.length">Next</button>
+  <span>Showing {{ (page-1)*pageSize + 1 }} to {{ Math.min(page*pageSize, filtered.length) }} of {{ filtered.length }}</span>
+  
+</div>
+
+
+

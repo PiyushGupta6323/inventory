@@ -1,45 +1,40 @@
-import { HashLocationStrategy } from '@angular/common';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Injectable, Type } from '@angular/core';
-import { map, Observable, throwError } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  baseUrl = 'http://localhost:5000/api/'
-  constructor(private http: HttpClient) { }
+  baseUrl = 'http://localhost:5001/api'
 
-  createItems(data: any): Observable<any> {
-    const headers = new HttpHeaders({
-        'Content-Type': 'application/json',
-    });
-    return this.http.post(`${this.baseUrl}create-item`, data, { headers });
+  constructor(private http: HttpClient) {}
+
+  // Users CRUD
+  getUsers(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/user`);
   }
 
-  updateUser(data: any): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-  return this.http.post(`${this.baseUrl}update-item`, data, { headers });
-}
-  getUser(): Observable<any[]> {
-    return this.http.get<any>(`${this.baseUrl}user`).pipe(
-      map(response => response || []) // Access the 'recordset' array
-    );
-  }
-  private handleError(error: HttpErrorResponse) {
-    if (error.error instanceof ErrorEvent) {
-      // Client-side error
-      console.error('An error occurred:', error.error.message);
-    } else {
-      // Server-side error
-      console.error(`Backend returned code ${error.status}, body was: ${error.error}`);
-    }
-    // Return an observable with a user-facing error message
-    return throwError('Something bad happened; please try again later.');
+  addUser(user: any): Observable<string> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(`${this.baseUrl}/user`, user, { headers, responseType: 'text' as const });
   }
 
+  updateUser(id: number, user: any): Observable<string> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.put(`${this.baseUrl}/user/${id}`, user, { headers, responseType: 'text' as const });
+  }
 
- 
+  deleteUser(id: number): Observable<string> {
+    return this.http.delete(`${this.baseUrl}/user/${id}`, { responseType: 'text' as const });
+  }
+
+  // Lookups
+  getAllDistricts(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/alldistrict`);
+  }
+
+  getBlocksByDistrict(distId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/blockbydistrictid/${distId}`);
+  }
 }

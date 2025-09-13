@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DesignationService } from 'src/app/services/designation.service';
 import { ActivatedRoute } from '@angular/router';
 // import { isNgTemplate } from '@angular/compiler';
@@ -10,103 +10,52 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./designation.component.css']
 })
 export class DesignationComponent implements OnInit {
-
-
-  designationName: string = '';
+  designationForm!: FormGroup;
   designation: any[] = [];
-  // designationForm: any;
-  // designationList: any[] = [];
-  // designationId: string | null = null;
-  // editMode: boolean = false;
-  // designationName: any;
+  editMode: any;
+  selectedId: number | null = null;
 
-  constructor(private designationService: DesignationService,
-    // private fb: FormBuilder, 
-    private route: ActivatedRoute) {
-
-  }
+  constructor(private fb: FormBuilder, private designationService: DesignationService) {}
 
   ngOnInit(): void {
-    // throw new Error('Method not implemented.');
-    // this.getDesignation();
+    this.designationForm = this.fb.group({
+      Designation_name: [''],
+    });
     this.loadDesignation();
-
-    // this.designationForm = this.fb.group({
-    //   Designation_name: new FormControl('', Validators.required),
-    // });
-
   }
-  saveDesignation() {
-    if (this.designationName) {
-      // Logic to save the district, for now using localStorage or pass the data to backend API
-      let designation = JSON.parse(localStorage.getItem('designation') || '[]');
-      designation.push({ name: this.designationName });
-      localStorage.setItem('designation', JSON.stringify(designation));
-     
-  
-      this.designationName = '';
-      alert('Designation Added Successfully');
-    } else {
-      alert('Please enter a designation name.');
-    }
-  }
-  
-
-  // getDesignation() {
   loadDesignation() {
-        // this.designationService.getDesignation().subscribe(
-        //   (data: any[]) => {
-        // this.designationList = data;
-        this.designationService.getDesignationData().subscribe(data => {
-        this.designation = data;
+    this.designationService.getDesignation().subscribe(data => {
+      this.designation = data;
+    });
+  }
+  onSubmit() {
+    if (this.editMode) {
+      this.designationService.updateDesignation(this.selectedId!, this.designationForm.value).subscribe(() => {
+        this.loadDesignation();
+        this.cancelEdit();
+      }); 
+    } else {
+      this.designationService.addDesignation(this.designationForm.value).subscribe(() => {
+        this.loadDesignation();
+        this.designationForm.reset();
       });
-  }
-
-  deleteDesignation(index: number) {
-    if (confirm('Are you sure you want to delete this designation?')) {
-      this.designation.splice(index, 1);
-      localStorage.setItem('designation', JSON.stringify(this.designation));
-      alert('Designation Deleted');
     }
   }
-  
-  editDesignation(index: number) {
-    let newName = prompt('Edit Designation Name', this.designation[index].name);
-    if (newName) {
-      this.designation[index].name = newName;
-      localStorage.setItem('designation', JSON.stringify(this.designation));
-      alert('Designation Updated');
-    }
+  editDesignation(designation: any) {
+    this.editMode = true;
+    this.selectedId = designation.Id;
+    this.designationForm.patchValue({
+      Designation_name: designation.Designation_name
+    })
   }
-  // designationEdit(designationId: string): void {
-  //   const designationToEdit = this.designationList.find(item => item.id === designationId);
-  //   if (designationToEdit) {
-
-  //     this.designationForm = { ...designationToEdit };
-  //     console.log('Editing designation with ID:', designationId);
-
-  //   } else {
-  //     console.log('Designation not found');
-  //   }
-  // }
-  // designationDelete(designationId: string): void {
-  //   // Add your delete logic here. For example, removing the designation from the designationList:
-  //   this.designationList = this.designationList.filter(item => item.id !== designationId);
-  //   console.log('Designation deleted with ID:', designationId);
-  // }
-
-  // onSave() {
-  //   const post = this.designationForm.getRawValue();
-  //   const data = {
-  //     Designation_name: post.Designation_name
-  //   }
-
-  //   this.designationService.createItems(data).subscribe((res: any) => {
-  //     if (res) {
-  //       const last_inserted_id = res.lastInsertedId;
-  //       console.log('result items', res)
-  //     }
-  //   })
-  // }
+  cancelEdit() {
+    this.editMode = false;
+    this.selectedId = null;
+    this.designationForm.reset();
+  }
+  deleteDesignation(id: number) {
+    this.designationService.deleteDesignation(id).subscribe(() => {
+      this.loadDesignation();
+    });
+  }
 }
- 

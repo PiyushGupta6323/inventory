@@ -1,7 +1,7 @@
 import { isNgTemplate } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { DepartmentService } from '../services/department.service';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-department',
@@ -9,70 +9,56 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
   styleUrls: ['./department.component.css']
 })
 export class DepartmentComponent implements OnInit {
+  departmentForm!: FormGroup;
+  editMode: any;
+  department: any[] = [];
+  selectedId: number | null = null;
+  departmentName: string = '';
 
-  departmentForm: any;
-  departmentList: any[] = [];
-  departmentId: string | null = null;
-  // editMode: boolean = false;
-  departmentName: any;
-  saveDepartment: any;
-  DepartmentName: any;
+  
 
-  constructor(private departmentService: DepartmentService,
-    private fb: FormBuilder,
-
-  ) {
-
-  }
-
-
+  constructor(private fb: FormBuilder, private departmentService: DepartmentService) {}
 
   ngOnInit(): void {
-    // throw new Error('Method not implemented.');
-    this.getDepartment();
-
     this.departmentForm = this.fb.group({
-      Department_name: new FormControl('', Validators.required),
+      Department_name: [''],
     });
-
+    this.loadDepartment();
   }
-
-  getDepartment() {
-    this.departmentService.getDepartment().subscribe(
-      (data: any[]) => {
-        this.departmentList = data;
-      }
-    );
+  loadDepartment() {
+    this.departmentService.getDepartment().subscribe(data => {
+      this.department = data;
+    });
   }
-
-  departmentEdit(departmentId: string): void {
-    const departmentToEdit = this.departmentList.find(item => item.id === departmentId);
-    if (departmentToEdit) {
-
-      this.departmentForm = { ...departmentToEdit };
-      console.log('Editing department with ID:', departmentId);
-
+  onSubmit() {
+    if (this.editMode) {
+      this.departmentService.updateDepartment(this.selectedId!, this.departmentForm.value).subscribe(() => {
+        this.loadDepartment();
+        this.cancelEdit();
+      });
     } else {
-      console.log('Department not found');
+      this.departmentService.addDepartment(this.departmentForm.value).subscribe(() => {
+        this.loadDepartment();
+        this.departmentForm.reset();
+      });
     }
   }
-  departmentDelete(departmentId: string): void {
-    // Add your delete logic here. For example, removing the department from the departmentList:
-    this.departmentList = this.departmentList.filter(item => item.id !== departmentId);
-    console.log('Department deleted with ID:', departmentId);
-  }
-
-  onSave() {
-    const post = this.departmentForm.getRawValue();
-    const data = {
-      Department_name: post.Department_name
-    }
-
-    this.departmentService.createItems(data).subscribe((res: any) => {
-      if (res) {
-        const last_inserted_id = res.lastInsertedId;
-        console.log('result items', res)
-      }
+  editDepartment(department: any) {
+    this.editMode = true;
+    this.selectedId = department.Id;
+    this.departmentForm.patchValue({
+      Department_name: department.Department_name
     })
   }
+
+  cancelEdit() {
+    this.editMode = false;
+    this.selectedId = null;
+    this.departmentForm.reset(); 
+  }
+   deleteDepartment(id: number) {
+    this.departmentService.deleteDepartment(id).subscribe(() => {
+      this.loadDepartment();
+    });
+   }
 }

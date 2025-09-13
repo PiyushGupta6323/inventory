@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DistrictService } from 'src/app/services/district.service';
 
@@ -10,70 +11,70 @@ import { DistrictService } from 'src/app/services/district.service';
 export class DistrictComponent implements OnInit {
 // districtLists: any;
 // districtId: string | null = null;
-districtName: string = '';
-districts: any[] = [];
+  districtName: string = '';
+  districts: any[] = [];
+  selectedId: number | null = null;
+  districtForm!: FormGroup;
+  editMode: boolean = false;
+  // district: any[] = [];
 
 
-constructor (private districtService: DistrictService,
- private route: ActivatedRoute) {
-
- }
+constructor (private fb: FormBuilder, private districtService: DistrictService) {}
 
 
  ngOnInit(): void {
+  this.districtForm = this.fb.group({
+    District_name: [''],
+  });
   this.loadDistricts();
 }
-
-
-
-
-saveDistrict() {
-  if (this.districtName) {
-    // Logic to save the district, for now using localStorage or pass the data to backend API
-    let districts = JSON.parse(localStorage.getItem('districts') || '[]');
-    districts.push({ name: this.districtName });
-    localStorage.setItem('districts', JSON.stringify(districts));
-   
-
-    this.districtName = '';
-    alert('District Added Successfully');
-  } else {
-    alert('Please enter a district name.');
-  }
-}
-
-  loadDistricts() {
-    this.districtService.getDistrictData().subscribe(data => {
+loadDistricts() {
+    this.districtService.getDistricts().subscribe(data => {
       this.districts = data;
     });
+}
+ onSubmit() {
+  if (this.editMode) {
+  this.districtService.updateDistrict(this.selectedId!, this.districtForm.value).subscribe(() => {
+    this.loadDistricts();
+    this.cancelEdit();
+  });
+ } else {
+   this.districtService.addDistrict(this.districtForm.value).subscribe(() => {
+    this.loadDistricts();
+    this.districtForm.reset();
+   });
+ }
+}
+editDistrict(district: any) {
+  this.editMode = true;
+  this.selectedId = district.Id;
+  this.districtForm.patchValue({
+    District_name: district.District_name
+  })
+}
 
-
-    /*"Id": 2,
-    "District_name": "Alwar",
-    "Created_on": "2015-12-31T15:20:50.000Z",
-    "LastModified_on": "2015-12-31T15:20:50.000Z",
-    "Isactive": true,
-    "Iddelete": false
-  },*/
-
-
+  cancelEdit() {
+    this.editMode = false;
+    this.selectedId = null;
+    this.districtForm.reset();
   }
 
-
-  deleteDistrict(index: number) {
-    if (confirm('Are you sure you want to delete this district?')) {
-      this.districts.splice(index, 1);
-      localStorage.setItem('districts', JSON.stringify(this.districts));
-      alert('District Deleted');
-    }
-  }
-  
-  editDistrict(index: number) {
-    let newName = prompt('Edit District Name', this.districts[index].name);
-    if (newName) {
-      this.districts[index].name = newName;
-      localStorage.setItem('districts', JSON.stringify(this.districts));
-      alert('District Updated');
-    }
+  deleteDistrict(id: number) {
+    this.districtService.deleteDistrict(id).subscribe(() => {
+      this.loadDistricts();
+    });
   }
 }
+  
+
+
+//   editDistrict(index: number) {
+//     let newName = prompt('Edit District Name', this.districts[index].name);
+//     if (newName) {
+//       this.districts[index].name = newName;
+//       localStorage.setItem('districts', JSON.stringify(this.districts));
+//       alert('District Updated');
+//     }
+//   }
+// }

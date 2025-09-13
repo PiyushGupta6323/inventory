@@ -1,20 +1,309 @@
-<div class="container">
+<div class="container mt-4">
+  <h2>{{ isEditMode ? 'Update Block' : 'Add Block' }}</h2>
+
+  <form [formGroup]="blockForm" (ngSubmit)="onSubmit()" class="mb-4 border p-3 rounded bg-light">
+    <div class="row">
+      <div class="col-md-4 mb-2">
+  <label for="district">Select District</label>
+  <select id="district" class="form-control" formControlName="Dist_id" required>
+    <option value="">-- Select District --</option>
+    <option *ngFor="let district of districts" [value]="district.Dist_id">
+      {{ district.District_name }}
+    </option>
+  </select>
+</div>
+
+<div class="col-md-4 mb-2">
+  <label for="pop">Select POP Location</label>
+  <select id="pop" class="form-control" formControlName="POP_Location" required>
+    <option value="">-- Select POP Location --</option>
+    <option *ngFor="let pop of poplocations" [value]="pop.POP_Location">
+      {{ pop.POP_Location }}
+    </option>
+  </select>
+</div>
+      <div class="col-md-4 mb-2">
+        <label>Unique Id</label>
+        <input type="text" class="form-control" formControlName="Unique_id" />
+      </div>
+      <div class="col-md-4 mb-2">
+        <label>Block Name</label>
+        <input type="text" class="form-control" formControlName="Block_name" />
+      </div>
+      <div class="col-md-4 mb-2">
+        <label>Building Code</label>
+        <input type="text" class="form-control" formControlName="Buildingcode" />
+      </div>
+      
+      <div class="col-md-4 mb-2">
+        <label>Latitude</label>
+        <input type="text" formControlName="LAT" />
+    <div *ngIf="blockForm.get('LAT')?.invalid && blockForm.get('LAT')?.touched" style="color:red">
+      Please enter a valid Latitude (-90 to +90).
+    </div>
+      </div>
+      <div class="col-md-4 mb-2">
+        <label>Longitude</label>
+        <input type="text" formControlName="Long" />
+    <div *ngIf="blockForm.get('Long')?.invalid && blockForm.get('Long')?.touched" style="color:red">
+      Please enter a valid Longitude (-180 to +180).
+    </div>
+      </div>
+      
+      <div class="col-md-4 mb-2">
+        <label>Active</label>
+        <input type="checkbox" formControlName="Isactive" />
+      </div>
+    </div>
+
+    <button type="submit">
+    {{ editId ? 'Update' : 'Add' }} Block
+    </button>
+    <button type="button" class="btn btn-secondary ml-2" (click)="resetForm()">Reset</button>
+  </form>
+
+  <h3>Blocks List</h3>
+  <table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th>ID</th>
+        <th>District</th>
+        <th>Unique ID</th>
+        <th>Block Name</th>
+        <th>Building Code</th>
+        <th>POP Location</th>
+        <th>Latitude</th>
+        <th>Longitude</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let block of blocks">
+        <td>{{ block.Id }}</td>
+        <td>{{ block.District_name }}</td>
+        <td>{{ block.Unique_id }}</td>
+        <td>{{ block.Block_name }}</td>
+        <td>{{ block.Buildingcode }}</td>
+        <td>{{ block.POP_Location }}</td>
+        <td>
+          {{ block.LAT ? (block.LAT | number : '1.6-6') : 'N/A' }}
+        </td>
+       <td>
+          {{ block.Long ? (block.Long | number : '1.6-6') : 'N/A' }}
+        </td>
+       
+        <td>
+          <button (click)="editBlock(block)">Edit</button>
+          <button (click)="deleteBlock(block.Id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+
+
+<!-- <div class="panel panel-default">
+  <div class="panel-heading"><strong><i class="fa fa-plus"></i> Add Block</strong></div>
+  <div class="panel-body">
+    <form>
+      <div class="row">
+        <div class="col-md-4">
+          <label>Select District</label>
+          <select class="form-control"><option>Ajmer</option></select>
+        </div>
+        <div class="col-md-4">
+          <label>Select POP Location</label>
+          <select class="form-control"><option>CCC</option></select>
+        </div>
+        <div class="col-md-4">
+          <label>Block</label>
+          <input type="text" class="form-control" value="Ajmer" />
+        </div>
+        <div class="col-md-4">
+          <label>POP Code</label>
+          <input type="text" class="form-control" value="All/All/CC/B" />
+        </div>
+        <div class="col-md-4">
+          <label>Latitude</label>
+          <input type="text" class="form-control" value="26.46926" />
+        </div>
+        <div class="col-md-4">
+          <label>Longitude</label>
+          <input type="text" class="form-control" value="74.642" />
+        </div>
+        <div class="col-md-4">
+          <label>&nbsp;</label>
+          <button class="btn btn-primary form-control">Update</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<br>
+
+<div class="panel panel-default">
+  <div class="panel-heading"><strong><i class="fa fa-list"></i> Show Block</strong></div>
+  <div class="panel-body">
+    <div class="row mb-2">
+      <div class="col-md-6">
+        <label>
+          <select class="form-control" [(ngModel)]="pageSize">
+            <option *ngFor="let size of [10, 25, 50]" [value]="size">{{ size }}</option>
+          </select>
+          records per page
+        </label>
+      </div>
+      <div class="col-md-6 text-right">
+        <label>Search:
+          <input class="form-control" [(ngModel)]="searchText" (input)="filterBlocks()" />
+        </label>
+      </div>
+    </div>
+
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Sr. No.</th>
+          <th>District</th>
+          <th>Unique Id</th>
+          <th>Block</th>
+          <th>POP Code</th>
+          <th>POP Location</th>
+          <th>Latitude</th>
+          <th>Longitude</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let block of paginatedBlocks; let i = index">
+          <td>{{ (currentPage - 1) * pageSize + i + 1 }}</td>
+          <td>{{ block.District }}</td>
+          <td>{{ block.Unique_id }}</td>
+          <td>{{ block.Block }}</td>
+          <td>{{ block.POP_Code }}</td>
+          <td>{{ block.POP_Location }}</td>
+          <td>{{ block.Latitude }}</td>
+          <td>{{ block.Longitude }}</td>
+          <td>
+             <button class="btn btn-sm btn-primary">Edit</button>
+             <button class="btn btn-sm btn-danger">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="pagination">
+      <button class="btn btn-default" [disabled]="currentPage === 1" (click)="changePage(currentPage -1)">Previous</button>
+      <button class="btn btn-default" *ngFor="let page of[].constructor(totalPages()); let i = index" 
+      [class.active]="currentPage === i + 1" (click)="changePage(i + 1)">{{ i + 1 }}</button>
+      <button class="btn btn-default" [disabled]="currentPage === totalPages()" (click)="changePage(currentPage + 1)">Next</button>
+    </div>
+  </div>
+</div> -->
+
+
+
+<!-- <div class="container p-4">
+  <h2>Add New Block</h2>
+
+  <form [formGroup]="blockForm" (ngSubmit)="onSubmit()" class="mb-4 border p-3 rounded bg-light">
+    <div class="row">
+      <div class="col-md-4 mb-2">
+        <label>District</label>
+        <select class="form-control" formControlName="District_name" required>
+          <option value="" disabled>Select District</option>
+          <option *ngFor="let district of districts" [value]="district">{{ district }}</option>
+        </select>
+      </div>
+
+      <div class="col-md-4 mb-2">
+        <label>POP Location</label>
+        <select class="form-control" formControlName="POP_Location" required>
+         <option value="" disabled>Select POP Location</option>
+        <option *ngFor="let location of popLocation" [value]="location">{{ location }}</option>
+        </select>
+      </div> -->
+      
+      <!-- <div class="col-md-4 mb-2">
+        <label>Unique ID</label>
+        <input class="form-control" formControlName="Unique_id" required>
+      </div> -->
+
+      <!-- <div class="col-md-4 mb-2">
+        <label>Block Name</label>
+        <input class="form-control" formControlName="Block_name" required>
+      </div>
+
+      <div class="col-md-4 mb-2">
+        <label>POP Code</label>
+        <input class="form-control" formControlName="Buildingcode" required>
+      </div>
+
+      <div class="col-md-4 mb-2">
+        <label>Latitude</label>
+        <input class="form-control" formControlName="LAT" required>
+      </div>
+
+      <div class="col-md-4 mb-2">
+        <label>Longitude</label>
+        <input class="form-control" formControlName="Long" required>
+      </div>
+
+      <div class="col-12 mt-2">
+        <button class="btn btn-primary" type="submit" [disabled]="blockForm.invalid">Add Block</button>
+      </div>
+    </div>
+  </form>
+
+  <h3>Blocks List</h3>
+
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>District</th>
+        <th>Unique ID</th>
+        <th>Block</th>
+        <th>POP Code</th>
+        <th>Location</th>
+        <th>LAT</th>
+        <th>Long</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let block of blocks">
+        <td scope="row">{{ block['Id'] }}</td>
+        <td scope="row">{{ block['District_name'] }}</td>
+        <td scope="row">{{ block['Unique_id'] }}</td>
+        <td scope="row">{{ block['Block_name'] }}</td>
+        <td scope="row">{{ block['POP_Code'] }}</td>
+        <td scope="row">{{ block['POP_Location'] }}</td>
+        <td scope="row">{{ block['LAT'] }}</td>
+        <td scope="row">{{ block['Long'] }}</td>
+        <td>
+          <a class="action-edit" (click)="blocksEdit(block.blockId)">Edit</a> |
+          <a class="action-delete" (click)="blocksDelete(block.block_Id)">Delete</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div> -->
+
+
+
+<!-- <div class="container">
     <h4>Blocks</h4>
 
     <form class="form-group" [formGroup]="blocksForm">
-
-        <!-- <div class="form-group">
-            <label for="ItemName">Item Name</label>
-            <input type="text" id="itemName" class="form-control" formControlName="item_name" />
-        </div> -->
 
 
         <div class="form-group">
             <label for="selectDistrict">District Name</label>
             <label class="label">
-              <select class="form-select" aria-label="selectDistrict">  <!-- <select class="custom-select custom-select-lg mb-3" formControlName="District_name" class="form-control"
-                    [(ngModel)]="currentDistrictName"> -->
-                    <!-- <option *ngFor="let selectDistrict of selectDistrict" [ngValue]="districtName">{{districtName}}</option> -->
+              <select class="form-select" aria-label="selectDistrict">  
                     <option selected>-Select-</option>
                     <option value="1">One</option>
                     <option value="2">Two</option>
@@ -27,8 +316,7 @@
             <label for="selectLocation">PopLocation</label>
           <label class="label">
             <select class="form-select" aria-label="selectLocation"> 
-                <!-- <class="custom-select custom-select-lg mb-3" formControlName="POP_Location" class="form-control"
-                [(ngModel)]="currentPopLocation"> -->
+                
                 <option *ngFor="let PopLocation of selectPOPLocation" [ngValue]="popLocation">{{popLocation}}</option>
                 <option selected>-Select-</option>
             </select>
@@ -102,7 +390,7 @@
         </table>
     </div>
 
-</div>
+</div> -->
 
 
 

@@ -9,7 +9,7 @@
 
 
         <div class="form-group">
-            <label for="itemType">Item Type</label>
+            <label for="item_type">Item Type</label>
             <select class="custom-select custom-select-lg mb-3" formControlName="item_type" class="form-control"
                 [(ngModel)]="currentItemType">
                 <option *ngFor="let itemType of ItemTypes" [ngValue]="itemType">{{itemType}}</option>
@@ -39,7 +39,11 @@
         </div>
         <div class="form-group">
             <label for="location_identifire">Location Identifire</label>
-            <input type="text" id="location_identifire" class="form-control" formControlName="location_identifire" />
+            <select class="custom-select custom-select-lg mb-3" formControlName="location_identifire" class="form-control"
+            [(ngModel)]="currentLocationIdentifire">
+            <option *ngFor="let locationIdentifire of LocationIdentifires" [ngValue]="locationIdentifire">{{locationIdentifire}}</option>
+            </select>
+            <!-- <input type="text" id="location_identifire" class="form-control" formControlName="location_identifire" /> -->
         </div>
 
 

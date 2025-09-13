@@ -1,4 +1,4 @@
-import { Component,  } from '@angular/core';
+import { Component } from '@angular/core';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -12,8 +12,10 @@ export class AppComponent {
   verticalLists: any;
   districtLists: any;
   designationLists: any;
+
   constructor() {
   }
+  
   ngOnInit(): void {
 
   }

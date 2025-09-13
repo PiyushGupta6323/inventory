@@ -1,106 +1,78 @@
 <div class="container">
-    <h4>Users</h4>
-    <form class="form-group" [formGroup]="userForm">
-    
-      <div class="form-group">
-        <label for="selectDistrict">District Name</label>
-        <label class="label">
-        <!-- <select class="custom-select custom-select-lg mb-3" formControlName="Dist_id" class="form-control"
-          [(ngModel)]="currentDistrictName">
-          <option *ngFor="let selectDistrict of selectDistrict" [ngValue]="districtName">{{districtName}}</option>
-        </select> -->
-     
+  <h4>Users</h4>
+  <form class="form-group" [formGroup]="userForm" (ngSubmit)="onSubmit()">
 
-         <select class="form-select" aria-label="selectDistrict">
-           <option selected>-Select-</option>
-           <option value="1">One</option>
-           <option value="2">Two</option>
-           <option value="3">Three</option>
-         </select>
-        </label>
-      </div>
-
-      <div class="form-group">
-        <label for="selectBlock"> Block Name</label>
-        <label class="label">
-         <select class="form-select" aria-label="selectBlock">
-           <option selected>-Select-</option>
-         </select>
-        </label>
-      </div>
-
-      <div class="form-group">
-        <label for="selectDesignation">Designation Name</label>
-        <label class="label">
-         <select class="form-select" aria-label="selectDesignation">
-           <option selected>-Select-</option>
-           <option value="1">One</option>
-           <option value="2">Two</option>
-           <option value="3">Three</option>
-         </select>
-        </label>
-      </div>
-
-      <div class="form-group">
-        <label>Is Active</label>
-        <label class="label">
-            <input type="checkbox" formControlName="Isactive" class="checkbox">
-        </label>
-      </div>
-
-      <div class="form-group">
-        <label>User Name</label>
-        <label class="label">
-            <!-- <input type="text" id="User_name" class="form-control" formControlName="User_name" /> -->
-        
-          <input type="text" class="form-control" id="User_name" placeholder="Enter User name">
-        </label>
-      </div>
-
-      <div class="form-group">
-        <label>Password</label>
-        <label class="label">
-            <input type="text" id="Password" class="form-control" formControlName="Password" placeholder="Ënter Password" />
-        </label>
-      </div>
-
-      <button class="btn btn-primary" (click)="onSave()">Save</button>
-    </form>
-
-
-
-    <table class="table table-striped table-bordered">
-        <thead>
-            <tr>
-                <th scope="col">Sr No</th>
-                <th scope="col">District</th>
-                <th scope="col">Block</th>
-                <th scope="col">Unique Id</th>
-                <th scope="col">Designation</th>
-                <th scope="col">User Name</th>
-                <th scope="col">Password</th>
-                <th scope="col">Active</th>
-                <th scope="col">Action</th>
-
-            </tr>
-        </thead>
-        
-        <tbody>
-            <tr *ngFor="let item of userList">
-                <td scope="row">{{ item['Id'] }}</td>
-                <td scope="row">{{ item['Dist_id'] }}</td>
-                <td scope="row">{{ item['Block_id'] }}</td>
-                <td scope="row">{{ item['Unique_id'] }}</td>
-                <td scope="row">{{ item['Designation_Id'] }}</td>
-                <td scope="row">{{ item['User_name'] }}</td>
-                <td scope="row">{{ item['Password'] }}</td>
-                <td scope="row">{{ item['Isactive'] }}</td>
-                <td><a class="action-edit" (click)="userEdit(item['Id'])">Edit</a>
-                ||
-                <a class="action-delete" (click)="userDelete(item['Id'])">Delete</a>
-                </td>
-                
-            </tr>
-        </tbody>
-    </table>
+    <div class="form-group">
+      <label for="selectDistrict">Select District</label>
+      <select class="form-select" id="selectDistrict" formControlName="Dist_id">
+        <option [ngValue]="null">-Select-</option>
+        <option *ngFor="let d of districts" [ngValue]="d.Id">{{ d.District_name }}</option>
+      </select>
     </div>
+
+    <div class="form-group">
+      <label for="selectBlock">Select Block</label>
+      <select class="form-select" id="selectBlock" formControlName="Block_id">
+        <option [ngValue]="null">-Select-</option>
+        <option *ngFor="let b of blocks" [ngValue]="b.Id">{{ b.Block_name }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="selectDesignation">Select Designation</label>
+      <select class="form-select" id="selectDesignation" formControlName="Designation_Id">
+        <option [ngValue]="null">-Select-</option>
+        <option *ngFor="let des of designations" [ngValue]="des.Id">{{ des.Designation_name }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>User Name</label>
+      <input type="text" class="form-control" formControlName="User_name" placeholder="Enter User name" />
+    </div>
+
+    <div class="form-group">
+      <label>Password</label>
+      <input type="text" class="form-control" formControlName="Password" placeholder="Enter Password" />
+    </div>
+
+    <div class="form-group">
+      <label>Is Active</label>
+      <input type="checkbox" formControlName="Isactive" class="checkbox" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">{{ editMode ? 'Update' : 'Save' }}</button>
+    <button type="button" class="btn btn-secondary ms-2" (click)="resetForm()" *ngIf="editMode">Cancel</button>
+  </form>
+
+  <table class="table table-striped table-bordered mt-3">
+    <thead>
+      <tr>
+        <th scope="col">Sr No</th>
+        <th scope="col">District</th>
+        <th scope="col">Block</th>
+        <th scope="col">Designation</th>
+        <th scope="col">User Name</th>
+        <th scope="col">Password</th>
+        <th scope="col">Active</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of users; let i = index">
+        <td>{{  i + 1 }}</td>
+        <td>{{ item.District_name }}</td>
+        <td>{{ item.Block_name }}</td>
+        <td>{{ item.Designation_name }}</td>
+        <td>{{ item.User_name }}</td>
+        <td>{{ item.Password }}</td>
+        <td>{{ item.Isactive }}</td>
+        <td>
+          <a class="action-edit" (click)="editUser(item)">Edit</a>
+          |
+          <a class="action-delete" (click)="deleteUser(item.Id)">Delete</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -8,23 +8,29 @@ import { ShqComponent } from './component/shq/shq.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatTableModule } from '@angular/material/table';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatPaginatorModule } from '@angular/material/paginator';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CommonModule } from '@angular/common';
+
+// Your custom components
 import { MasterItemsComponent } from './component/master-items/master-items.component';
 import { DistrictComponent } from './master-items/district/district.component';
- import { VerticalComponent } from './component/vertical/vertical.component';
+import { VerticalComponent } from './component/vertical/vertical.component';
 import { BlocksComponent } from './blocks/blocks.component';
 import { DepartmentComponent } from './department/department.component';
 import { DesignationComponent } from './designation/designation.component';
 import { UserComponent } from './user/user.component';
-import { SiteShiftedComponent } from './site-shifted/site-shifted.component';
-import { HoSiteShiftingStatusComponent } from './component/ho-site-shifting-status/ho-site-shifting-status.component';
-import { ShowSiteShiftedComponent } from './component/show-site-shifted/show-site-shifted.component';
-import { CommonModule } from '@angular/common';
+import { SiteShiftFormComponent } from './component/site-shift-form/site-shift-form.component';
+import { SiteShiftListComponent } from './component/site-shift-list/site-shift-list.component';
+import { SiteShiftStatusComponent } from './component/site-shift-status/site-shift-status.component';
 import { SpareMgmtComponent } from './component/spare-mgmt/spare-mgmt.component';
-import { MatTableModule } from '@angular/material/table';
 import { OtherItemComplainComponent } from './component/other-item-complain/other-item-complain.component';
-import {ReplaceComplaintItemComponent} from './component/replace-complaint-item/replace-complaint-item.component';
-import { ReplaceComplaintItemService } from './services/replace-complaint-item.service';
+import { ReplaceComplaintItemComponent } from './component/replace-complaint-item/replace-complaint-item.component';
 import { CiscoItemComponent } from './cisco-item/cisco-item.component';
 import { OtherItemInventoryLogComponent } from './component/other-item-inventory-log/other-item-inventory-log.component';
 import { CiscoItemInventoryLogComponent } from './component/cisco-item-inventory-log/cisco-item-inventory-log.component';
@@ -32,7 +38,11 @@ import { OtherItemReportComponent } from './other-item-report/other-item-report.
 import { CiscoItemReportComponent } from './component/cisco-item-report/cisco-item-report.component';
 
 
-
+// Services
+import { ReplaceComplaintItemService } from './services/replace-complaint-item.service';
+import { SiteShiftRequestStatusComponent } from './component/site-shift-request-status/site-shift-request-status.component';
+import { SiteShiftReportComponent } from './component/site-shift-report/site-shift-report.component';
+import { BlockSiteShiftReportComponent } from './component/block-site-shift-report/block-site-shift-report.component';
 
 @NgModule({
   declarations: [
@@ -45,9 +55,10 @@ import { CiscoItemReportComponent } from './component/cisco-item-report/cisco-it
     DepartmentComponent,
     DesignationComponent,
     UserComponent,
-    SiteShiftedComponent,
-    HoSiteShiftingStatusComponent,  
-    ShowSiteShiftedComponent,
+    SiteShiftFormComponent,
+    SiteShiftStatusComponent,
+    SiteShiftListComponent,
+    SiteShiftRequestStatusComponent,
     SpareMgmtComponent,
     OtherItemComplainComponent,
     ReplaceComplaintItemComponent,
@@ -56,25 +67,28 @@ import { CiscoItemReportComponent } from './component/cisco-item-report/cisco-it
     CiscoItemInventoryLogComponent,
     OtherItemReportComponent,
     CiscoItemReportComponent,
+    SiteShiftReportComponent,
+    BlockSiteShiftReportComponent,
+    
    
-
   ],
-  
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule, 
+    HttpClientModule,
     FormsModule,
-    // other modules
-    MatDialogModule,
-    BrowserAnimationsModule,
     ReactiveFormsModule,
     CommonModule,
+    BrowserAnimationsModule,
+    MatDialogModule,
     MatTableModule,
-    NgxPaginationModule
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatPaginatorModule,
+    NgxPaginationModule,
   ],
   providers: [ReplaceComplaintItemService],
   bootstrap: [AppComponent],
-
 })
-export class AppModule { }
+export class AppModule {}

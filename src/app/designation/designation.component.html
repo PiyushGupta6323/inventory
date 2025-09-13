@@ -1,51 +1,39 @@
-<!-- <div class="container"> -->
+<div class="container mt-4">
+  <h2>{{ editMode ? 'Edit Designatiom' : 'Add Designation' }}</h2>
 
- <div class="panel panel-default"></div>
-    <h6>Add Designation</h6>
-    <div class="panel-body">
-      <div class="form-group">
-        <label for="designation">Designation</label>
-        <input type="text" id="designation" [(ngModel)]="designationName" class="form-control" placeholder="Enter Designation" />
+  <form [formGroup]="designationForm" (ngSubmit)="onSubmit()" class="mb-3 border p-3 rounded bg-light">
+    <div class="row">
+      <div class="col-md-4">
+        <label>Designation Name</label>
+        <input type="text" formControlName="Designation_name" class="form-control" required>
       </div>
-      <button class="btn btn-primary" (click)="saveDesignation()">Save</button>
     </div>
 
-    <div class="panel panel-default">
-        <div class="panel-heading">Show Designation</div>
+    <button type="submit" class="btn btn-primary mt-3">
+      {{ editMode ? 'Update' : 'Add' }}
+    </button>
+    <button *ngIf="editMode" type="button" class="btn btn-secondary mt-3" (click)="cancelEdit()">
+      Camcel
+    </button>
+  </form>
 
-    <!-- <div class="designationList.length > 0"> -->
-        <div class="panel-body">
-        <table class="table table-striped table-bordered">
-            <thead>
-             <tr>
-                <th scope="col">Sr No</th>
-                <th scope="col">Designation</th>
-                <th scope="col">Action</th>
-             </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let designation of designation; let i = index">
-                <td>{{ i + 1 }}</td>
-    
-    
-                <td>{{designation.Designation_name}}</td>
-
-               <!-- <tr *ngFor="let item of designationList">
-                <td scope="row">{{ item['Id'] }}</td>
-                <td scope="row">{{ item['Designation_name' ]}}</td> -->
-                <!-- <td><a class="action-edit" (click)="designationEdit(item['Id'])">Edit</a>
-                    ||
-                    <a class="action-delete" (click)="designationDelete(item['Íd'])">Delete</a>
-                  </td> -->
-                <td>
-                  <button class="btn btn-primary" (click)="editDesignation(i)">Edit</button>
-                  ||
-                  <button class="btn btn-danger" (click)="deleteDesignation(i)">Delete</button>
-                </td>
-              </tr>
-            </tbody>
-        </table>
-    </div>
-
-
+  <table class="table table-bordered mt-3">
+    <thead class="table-dark">
+      <tr>
+        <th>Sr No</th>
+        <th>Designation</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let d of designation; let i = index">
+        <td>{{ i + 1 }} </td>
+        <td>{{ d.Designation_name }}</td>
+        <td>
+          <a class="action-edit text-primary" role="button" (click)="editDesignation(d)">Edit</a> |
+          <a class="action-delete text-danger" role="button" (click)="deleteDesignation(d.Id)">Delete</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

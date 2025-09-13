@@ -1,0 +1,100 @@
+<div class="site-shift-container">
+  <h2>Site Shift Status Update</h2>
+
+  <div class="form-grid">
+    <!-- ✅ Left Panel: Non-editable HO + District + Block details -->
+    <div class="left-panel">
+      <h3>HO / Location Details</h3>
+      <table>
+        <tr><td><b>District:</b></td><td>{{ hodDetails?.Dist_id || '-' }}</td></tr>
+        <tr><td><b>Block:</b></td><td>{{ hodDetails?.Block_id || '-' }}</td></tr>
+        <tr><td><b>HO ID:</b></td><td>{{ hodDetails?.HO_id }}</td></tr>
+        <tr><td><b>Department:</b></td><td>{{ hodDetails?.Current_HO_Department }}</td></tr>
+        <tr><td><b>Building Code:</b></td><td>{{ hodDetails?.Current_Building_Code }}</td></tr>
+        <tr><td><b>Connectivity:</b></td><td>{{ hodDetails?.Current_Actual_Connectivity }}</td></tr>
+        <tr><td><b>Bandwidth:</b></td><td>{{ hodDetails?.Commissioned_Bandwidth }}</td></tr>
+        <tr><td><b>Commissioning Date:</b></td><td>{{ hodDetails?.Commissioning_date | date }}</td></tr>
+        <tr><td><b>Old Address:</b></td><td>{{ statusDetails?.Old_address }}</td></tr>
+        <tr><td><b>New Address:</b></td><td>{{ statusDetails?.New_address }}</td></tr>
+        <tr><td><b>Govt Letter:</b></td>
+          <td>
+            <a *ngIf="statusDetails?.Latter_name" target="_blank" 
+               [href]="'/uploads/' + statusDetails?.Latter_name">
+               {{ statusDetails?.Latter_name }}
+            </a>
+            <span *ngIf="!statusDetails?.Latter_name">-</span>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- ✅ Right Panel: Editable status update form -->
+    <div class="right-panel">
+      <form [formGroup]="form" (ngSubmit)="save()">
+        <div>
+          <label>BSNL Feasibility</label>
+          <select formControlName="BSNL_Feasiblity">
+            <option [ngValue]="false">No</option>
+            <option [ngValue]="true">Yes</option>
+          </select>
+        </div>
+        <div>
+          <label>Govt. Order to Operator</label>
+          <select formControlName="Govt_Order_Operator">
+            <option [ngValue]="false">No</option>
+            <option [ngValue]="true">Yes</option>
+          </select>
+        </div>
+        <div>
+          <label>Govt. Order to BSNL</label>
+          <select formControlName="Govt_Order_BSNL">
+            <option [ngValue]="false">No</option>
+            <option [ngValue]="true">Yes</option>
+          </select>
+        </div>
+        <div>
+          <label>Govt. Office Shifted</label>
+          <select formControlName="Govt_Office_Shifted_To_New_Location">
+            <option [ngValue]="false">No</option>
+            <option [ngValue]="true">Yes</option>
+          </select>
+        </div>
+        <div>
+          <label>Rack Shifted</label>
+          <select formControlName="Rack_Shifted_To_New_Location">
+            <option [ngValue]="false">No</option>
+            <option [ngValue]="true">Yes</option>
+          </select>
+        </div>
+        <div>
+          <label>Earthing Done</label>
+          <select formControlName="Earthing_done">
+            <option [ngValue]="false">No</option>
+            <option [ngValue]="true">Yes</option>
+          </select>
+        </div>
+        <div>
+          <label>BSNL Commission at New Location</label>
+          <select formControlName="BSNL_Commission_at_New_Location">
+            <option [ngValue]="false">No</option>
+            <option [ngValue]="true">Yes</option>
+          </select>
+        </div>
+        <div>
+          <label>Status</label>
+          <select formControlName="Status">
+            <option value="Under process">Under Process</option>
+            <option value="Completed">Completed</option>
+            <option value="Cancel">Cancelled</option>
+          </select>
+        </div>
+        <div>
+          <label>Remark</label>
+          <textarea formControlName="Remark"></textarea>
+        </div>
+
+        <button type="submit" [disabled]="loading">Update</button>
+      </form>
+    </div>
+  </div>
+</div>

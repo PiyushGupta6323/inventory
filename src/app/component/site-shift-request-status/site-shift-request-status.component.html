@@ -1,0 +1,82 @@
+<div class="card">
+  <div class="card-header">
+    <h3>Show HO Sites Shifting Request Status</h3>
+  </div>
+
+  <div class="card-body" *ngIf="!loading; else loadingTpl">
+    <!-- Top Summary Row -->
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Total Shifting Request</th>
+          <th>Shifting Request Under Process</th>
+          <th>Shifting Request Canceled</th>
+          <th>Shifting Completed</th>
+          <th>Total Site Updated Pending</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="requestStatus">
+          <td>{{ requestStatus.totalRequests }}</td>
+          <td>{{ requestStatus.underProcess }}</td>
+          <td>{{ requestStatus.canceled }}</td>
+          <td>{{ requestStatus.completed }}</td>
+          <td>{{ requestStatus.pending }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Detailed Breakdown -->
+    <table class="table table-bordered table-striped mt-3">
+      <tbody>
+        <tr>
+            <th> </th>
+            <td>Yes</td>
+            <td>No</td>
+        </tr>
+        <tr>
+          <th>BSNL Feasibility</th>
+          <td>{{ requestStatus?.bsnlFeasibility?.yes }}</td>
+          <td>{{ requestStatus?.bsnlFeasibility?.no }}</td>
+        </tr>
+        <tr>
+          <th>Govt. Order to Operator</th>
+          <td>{{ requestStatus?.govtOrderOperator?.yes }}</td>
+          <td>{{ requestStatus?.govtOrderOperator?.no }}</td>
+        </tr>
+        <tr>
+          <th>Govt. Order to BSNL</th>
+          <td>{{ requestStatus?.govtOrderBsnl?.yes }}</td>
+          <td>{{ requestStatus?.govtOrderBsnl?.no }}</td>
+        </tr>
+        <tr>
+          <th>Govt. Office Shifted To New Location</th>
+          <td>{{ requestStatus?.officeShifted?.yes }}</td>
+          <td>{{ requestStatus?.officeShifted?.no }}</td>
+        </tr>
+        <tr>
+          <th>Rack Shifted To New Location</th>
+          <td>{{ requestStatus?.rackShifted?.yes }}</td>
+          <td>{{ requestStatus?.rackShifted?.no }}</td>
+        </tr>
+        <tr>
+          <th>Earthing done</th>
+          <td>{{ requestStatus?.earthing?.yes }}</td>
+          <td>{{ requestStatus?.earthing?.no }}</td>
+        </tr>
+        <tr>
+          <th>BSNL Commission at New Location</th>
+          <td>{{ requestStatus?.commission?.yes }}</td>
+          <td>{{ requestStatus?.commission?.no }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Loader -->
+  <ng-template #loadingTpl>
+    <div class="text-center p-3">
+      <span class="spinner-border"></span> Loading request status...
+    </div>
+  </ng-template>
+</div>

@@ -1,0 +1,71 @@
+<div class="container mt-4">
+  <h3>Block-wise Inventory Status</h3>
+
+  <table class="table table-bordered text-center" *ngIf="blockSummary.length > 0">
+  <thead>
+    <tr>
+      <th>Block Name</th>
+      <th>DHQ/BHQ</th>
+      <th>Routers</th>
+        <th>IP Phone</th>
+        <th>LAN Switch</th>
+        <th>Modem (G.703)</th>
+        <th>Modem (V.35)</th>
+        <th>Closed Rack</th>
+        <th>AC</th>
+        <th>steplizer</th>  
+        <th>UPS</th>
+        <th>OVCD</th>
+        <th>Battery</th>
+        <th>Monitor</th>
+        <th>CPU</th>
+        <th>Keyboard</th>
+        <th>Mouse</th>
+        <th>Webcam with Web-based Surveilance Software</th>
+        <th>Voice Gateway</th>
+        <th>DG Set</th>
+        <th>Status Date</th>
+        <th>Remark</th>
+        <ng-container *ngFor="let item of itemNames">
+          <th colspan="3">{{ item }}</th>
+        </ng-container>
+      </tr>
+      <tr>
+        <ng-container *ngFor="let item of itemNames">
+          <th>Total</th>
+          <th>Working</th>
+          <th>Not Working</th>
+        </ng-container>
+      </tr>
+    </thead>
+  <tbody>
+    <tr *ngFor="let block of blockSummary">
+      <td>{{ block['Block Name'] }}</td>
+      <td>{{ block.Router_Working + block.Router_NotWorking }}</td>
+      <td>{{ block.IPPhone_Working + block.IPPhone_NotWorking }}</td>
+      <td>{{ block.LANSwitch_Working + block.LANSwitch_NotWorking }}</td>
+      <td>{{ block.ModemG703_Working + block.ModemG703_NotWorking }}</td>
+      <td>{{ block.ModemV35_Working + block.ModemV35_NotWorking }}</td>
+      <td>{{ block.ClosedRack_Working + block.ClosedRack_NotWorking }}</td>
+      <td>{{ block.UTPPatchPanel_Working + block.UTPPatchPanel_NotWorking }}</td>
+      <td>{{ block.UTPPatchCord_Working + block.UTPPatchCord_NotWorking }}</td>
+      <td>{{ block.InfoOutlets_Working + block.InfoOutlets_NotWorking }}</td>
+      <td>{{ block.Cable50Pair_Working + block.Cable50Pair_NotWorking }}</td>
+      <td>{{ block.WiringBlock50Pair_Working + block.WiringBlock50Pair_NotWorking }}</td>
+      <td>{{ block.AC_Working + block.AC_NotWorking }}</td>
+      <td>{{ block.UPS_Working + block.UPS_NotWorking }}</td>
+      <td>{{ block.Desktop_Working + block.Desktop_NotWorking }}</td>
+      <td>{{ block.Webcam_Working + block.Webcam_NotWorking }}</td>
+      <td>{{ block.DG_Working + block.DG_NotWorking }}</td>
+      <td>{{ block.StatusDate_Working + block.StatusDate_NotWorking }}</td>
+      <td>{{ block.Remark_Working + block.Remark_NotWorking }}</td>
+
+     <ng-container *ngFor="let item of itemNames">
+          <td>{{ block[item + '_Total'] || (block[item + '_Working'] + block[item + '_NotWorking']) || 0 }}</td>
+          <td>{{ block[item + '_Working'] || 0 }}</td>
+          <td>{{ block[item + '_NotWorking'] || 0 }}</td>
+        </ng-container>
+    </tr>
+  </tbody>
+</table>
+</div>
