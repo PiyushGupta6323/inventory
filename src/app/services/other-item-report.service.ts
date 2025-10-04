@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class OtherItemReportService {
- private apiUrl = 'http://localhost:5000/api/item-report';
+ private apiUrl = 'http://localhost:5001/api/item-report';
    constructor(private http: HttpClient) { }
   
    getAllItems() {

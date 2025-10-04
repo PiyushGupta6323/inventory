@@ -12,6 +12,6 @@ export class ItemReportService {
   constructor(private http: HttpClient) { }
 
   getReport(payload: any): Observable<any> {
-    return this.http.post<any[]>('http://localhost:5000/api/item-report',payload);
+    return this.http.post<any[]>('http://localhost:5001/api/item-report',payload);
   }
 }

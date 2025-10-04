@@ -36,7 +36,7 @@ CISCO_Remark: any;
   providedIn: 'root'
 })
 export class CiscoItemService {
-  private apiUrl = 'http://localhost:5000/api/cisco-items';
+  private apiUrl = 'http://localhost:5001/api/cisco-items';
 
 
   constructor(private http: HttpClient) {}

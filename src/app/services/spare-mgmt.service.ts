@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class SpareMgmtService {
-  private apiUrl = 'http://localhost:5000/api/SpareMgmt';
+  private apiUrl = 'http://localhost:5001/api/SpareMgmt';
 
   constructor(private http: HttpClient) {}
 

@@ -1,106 +1,31 @@
-<div class="container mt-3">
+<div *ngIf="loading" class="p-4">Loading...</div>
 
-  <!-- ✅ District Summary Table -->
-  <h3>District-Level Shifting & Inventory Summary</h3>
-  <table class="table table-bordered table-striped table-hover">
+<div *ngIf="!loading">
+  <table class="table table-bordered table-striped">
     <thead>
       <tr>
-        <th>District</th>
-        <th>Total Requests</th>
-        <th>Under Process</th>
-        <th>Canceled</th>
-        <th>Completed</th>
-        <th>Routers</th>
-        <th>IP Phone</th>
-        <th>LAN Switch</th>
-        <th>Modem (G.703)</th>
-        <th>Modem (V.35)</th>
-        <th>Closed Rack</th>
-        <th>UTP Patch Cord</th>
-        <th>Information Outlets</th>
-        <th>50Pair Shielded Cable>
-        <th>50Pair Wiring Block</th>
-        <th>AC</th>
-        <th>steplizer</th>  
-        <th>UPS</th>
-        <th>Antivirus</th>
-        <th>Earthpit</th>
-        <th>Monitor</th>
-        <th>Webcam</th>
-        <th>10KVA DG Set</th>
-        <th>15U Rack</th>
-        <th>UPS 2KVA</th>
-        <th>5KVA DG Set</th>        
+        <th rowspan="2">District</th>
+        <ng-container *ngFor="let item of items">
+          <th colspan="3" class="text-center">{{ item.label }}</th>
+        </ng-container>
+      </tr>
+      <tr>
+        <ng-container *ngFor="let item of items">
+          <th>Total</th>
+          <th>Working</th>
+          <th>Not Working</th>
+        </ng-container>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let district of districtData">
-         <td>
-          <a (click)="onDistrictClick(district)">{{ district.District_name }}</a>
-        </td>
-        <td>{{ district.Total_Shifting_Request }}</td>
-        <td>{{ district.Under_Process }}</td>
-        <td>{{ district.Canceled }}</td>
-        <td>{{ district.Completed }}</td>
-        <td>{{ district.Total_Router }}</td>
-        <td>{{ district.Total_IP_Phone }}</td>
-        <td>{{ district.Total_LAN_Switch }}</td>
-        <td>{{ district.Total_Modem_G703 }}</td>
-        <td>{{ district.Total_Modem_V35 }}</td>
-        <td>{{ district.Total_42U_Rack }}</td>
-        <td>{{ district.Total_UTP_Patch_Panel }}</td>
-        <td>{{ district.Total_UTP_Patch_Cord }}</td>
-        <td>{{ district.Total_Information_Outlets }}</td>
-        <td>{{ district.Total_50Pair_Shielded_Cable }}</td>
-        <td>{{ district.Total_50Pair_Wiring_Block }}</td>
-        <td>{{ district.Total_AC }}</td>  
-        <td>{{ district.Total_UPS_6KVA }}</td>
-        <td>{{ district.Total_AntiVirus }}</td> 
-        <td>{{ district.Total_EarthPit }}</td>   
-        <td>{{ district.Total_Desktop }}</td>
-        <td>{{ district.Total_Webcam }}</td> 
-        <td>{{ district.Total_10KVA_DGSet }}</td>
-        <td>{{ district.Total_15U_Rack }}</td>
-        <td>{{ district.Total_UPS_2KVA }}</td>
-        <td>{{ district.Total_5KVA_DGSet }}</td>
+      <tr *ngFor="let row of districtData">
+        <td>{{ row.District_name }}</td>
+        <ng-container *ngFor="let item of items">
+          <td>{{ row[item.key + '_Total'] }}</td>
+          <td>{{ row[item.key + '_Working'] }}</td>
+          <td>{{ row[item.key + '_NotWorking'] }}</td>
+        </ng-container>
       </tr>
     </tbody>
   </table>
-
-  <!-- ✅ Block Summary Table -->
-  <!-- <div *ngIf="blockData.length > 0">
-    <h4>Block-Level Details ({{ selectedDistrict }})</h4>
-    <table class="table table-bordered table-striped">
-      <thead>
-        <tr>
-          <th>Block</th>
-          <th>Total Requests</th>
-          <th>Under Process</th>
-          <th>Canceled</th>
-          <th>Completed</th>
-          <th>Routers Working</th>
-          <th>Routers Not Working</th>
-          <th>IP Phone Working</th>
-          <th>IP Phone Not Working</th>
-          <th>UPS 6KVA Working</th>
-          <th>UPS 6KVA Not Working</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let b of blockData">
-          <td>{{ b.Block_name }}</td>
-          <td>{{ b.Total_Shifting_Request }}</td>
-          <td>{{ b.Under_Process }}</td>
-          <td>{{ b.Canceled }}</td>
-          <td>{{ b.Completed }}</td>
-          <td>{{ b.Router_Working }}</td>
-          <td>{{ b.Router_NotWorking }}</td>
-          <td>{{ b.IPPhone_Working }}</td>
-          <td>{{ b.IPPhone_NotWorking }}</td>
-          <td>{{ b.UPS6KVA_Working }}</td>
-          <td>{{ b.UPS6KVA_NotWorking }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div> -->
+</div>

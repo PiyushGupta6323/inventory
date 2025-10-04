@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class CiscoItemReportService {
-  private apiUrl = 'http://localhost:3000/api/cisco-report';
+  private apiUrl = 'http://localhost:5001/api/cisco-report';
 
   constructor(private http: HttpClient) {}
 

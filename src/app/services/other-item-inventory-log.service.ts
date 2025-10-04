@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class OtherItemInventoryLogService {
- private apiUrl = 'http://localhost:5000/api/other-item-inventory-log';
+ private apiUrl = 'http://localhost:5001/api/other-item-inventory-log';
   constructor( private http: HttpClient) { }
   
   getOtherItemInventoryLog(): Observable<any[]> {

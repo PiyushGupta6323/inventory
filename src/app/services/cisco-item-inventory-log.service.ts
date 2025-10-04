@@ -10,6 +10,6 @@ export class CiscoItemInventoryLogService {
   constructor(private http: HttpClient) { }
 
   getCiscoInventoryLog(): Observable<any[]> {
-    return this.http.get<any[]>('http://localhost:5000/api/cisco-item-inventory-log');
+    return this.http.get<any[]>('http://localhost:5001/api/cisco-item-inventory-log');
   }
 }

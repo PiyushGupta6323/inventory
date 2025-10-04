@@ -36,7 +36,7 @@ export class ReplaceComplaintItemService {
       })
     );
   }
-  private apiUrl = 'http://localhost:5000/api'; // Update with your API endpoint
+  private apiUrl = 'http://localhost:5001/api/replace-item'; // Update with your API endpoint
 
   constructor(private http: HttpClient) { }
 

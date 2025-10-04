@@ -36,13 +36,13 @@ import { OtherItemInventoryLogComponent } from './component/other-item-inventory
 import { CiscoItemInventoryLogComponent } from './component/cisco-item-inventory-log/cisco-item-inventory-log.component';
 import { OtherItemReportComponent } from './other-item-report/other-item-report.component';
 import { CiscoItemReportComponent } from './component/cisco-item-report/cisco-item-report.component';
-
-
-// Services
-import { ReplaceComplaintItemService } from './services/replace-complaint-item.service';
 import { SiteShiftRequestStatusComponent } from './component/site-shift-request-status/site-shift-request-status.component';
 import { SiteShiftReportComponent } from './component/site-shift-report/site-shift-report.component';
 import { BlockSiteShiftReportComponent } from './component/block-site-shift-report/block-site-shift-report.component';
+
+// Services
+import { ReplaceComplaintItemService } from './services/replace-complaint-item.service';
+
 
 @NgModule({
   declarations: [

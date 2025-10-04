@@ -10,7 +10,7 @@ export class ShqService {
 private baseUrl;
   
   constructor(private http: HttpClient) {
-    this.baseUrl = 'http://localhost:5000/api'
+    this.baseUrl = 'http://localhost:5001/api'
    
 }
 getShqData(): Observable<any[]> {

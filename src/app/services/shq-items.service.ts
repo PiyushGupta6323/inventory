@@ -6,7 +6,7 @@ import { catchError, map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class ShqItemsService {
- baseUrl  = 'http://localhost:5000/api/'
+ baseUrl  = 'http://localhost:5001/api/'
   constructor(private http: HttpClient) { }
 
  // POST method
