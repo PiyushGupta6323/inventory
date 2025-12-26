@@ -44,9 +44,23 @@ export class SiteShiftStatusComponent {
     this.api.getStatusByHoId(this.hoId).subscribe(s => {
       this.loading = false;
       if (s) {
+      // 🟢 Convert null/undefined to false
+      const normalized = {
+        BSNL_Feasiblity: s.BSNL_Feasiblity === true,
+        Govt_Order_Operator: s.Govt_Order_Operator === true,
+        Govt_Order_BSNL: s.Govt_Order_BSNL === true,
+        Govt_Office_Shifted_To_New_Location: s.Govt_Office_Shifted_To_New_Location === true,
+        Rack_Shifted_To_New_Location: s.Rack_Shifted_To_New_Location === true,
+        Earthing_done: s.Earthing_done === true,
+        BSNL_Commission_at_New_Location: s.BSNL_Commission_at_New_Location === true,
+        Status: s.Status || 'Under process, Completed, Cancelled',
+        Remark: s.Remark || ''
+      };
+
       this.statusDetails = s;
-      this.form.patchValue(s);
-    }
+      this.form.patchValue(normalized);
+      console.log('✅ Normalized form data:', this.form.value);
+      }
     });
   }
 

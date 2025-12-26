@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { catchError, map, Observable, throwError } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SiteShiftedService {
-  baseUrl  = 'http://localhost:5001/api'
+  baseUrl = environment.apiUrl;
   apiUrl: any;
   getHODByBlockId: any;
   getHODDetailById: any;

@@ -18,7 +18,10 @@ export class CiscoItemComponent implements OnInit {
   }
 
   getAllItems() {
-    this.service.getItems().subscribe(data => this.items = data);
+    this.service.getItems().subscribe({
+      next: data => this.items = data,
+      error: err => console.error('getItems error', err)
+    });
   }
 
   filteredItems(): CiscoItem[] {
@@ -26,38 +29,66 @@ export class CiscoItemComponent implements OnInit {
 
     const lower = this.searchText.toLowerCase();
     return this.items.filter(item =>
-      Object.values(item).some(val =>
-        String(val).toLowerCase().includes(lower)
+      Object.values(item || {}).some(val =>
+        String(val ?? '').toLowerCase().includes(lower)
       )
     );
   }
 
   onEdit(item: CiscoItem) {
-    this.selectedItem = { ...item }; // Clone the item for editing
+     console.log('EDIT CLICKED:', item); 
+    // Deep clone to avoid editing the array item directly until save
+    this.selectedItem = JSON.parse(JSON.stringify(item));
+     // Auto-scroll to edit form
+  setTimeout(() => {
+    document.getElementById('editForm')?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+  }, 100);
   }
 
-  onDelete(id: number) {
-    if (confirm('Are you sure you want to delete this item?')) {
-      this.service.deleteItem(id).subscribe(() => {
-        this.getAllItems();
-      });
-    }
+onDelete(id?: number) {
+  if (id == null) {
+    console.warn('onDelete called with no id:', id);
+    return;
   }
+
+  if (!confirm('Are you sure you want to delete this item?')) return;
+
+  this.service.deleteItem(id).subscribe({
+    next: () => {
+      console.log('DELETE success for id:', id);
+      this.getAllItems();
+    },
+    error: err => {
+      console.error('deleteItem error', err);
+      alert('Delete failed — check console/Network tab for details.');
+    }
+  });
+}
 
   onSubmit() {
     if (!this.selectedItem) return;
 
-    if (this.selectedItem.Id) {
+    // Safer Id check: not null/undefined and > 0 (adjust if your Id can be 0)
+    if (this.selectedItem.Id != null && this.selectedItem.Id > 0) {
       // Update existing item
-      this.service.updateItem(this.selectedItem.Id, this.selectedItem).subscribe(() => {
-        this.getAllItems();
-        this.selectedItem = null;
+      this.service.updateItem(this.selectedItem.Id, this.selectedItem).subscribe({
+        next: () => {
+          this.getAllItems();
+          this.selectedItem = null;
+        },
+        error: err => console.error('updateItem error', err)
       });
     } else {
       // Create new item
-      this.service.createItem(this.selectedItem).subscribe(() => {
-        this.getAllItems();
-        this.selectedItem = null;
+      this.service.createItem(this.selectedItem).subscribe({
+        next: () => {
+          this.getAllItems();
+          this.selectedItem = null;
+        },
+        error: err => console.error('createItem error', err)
       });
     }
   }
@@ -66,106 +97,3 @@ export class CiscoItemComponent implements OnInit {
     this.selectedItem = null;
   }
 }
-
-
-
-
-// import { Component, OnInit } from '@angular/core';
-// import { FormBuilder, FormGroup } from '@angular/forms';
-// import { CiscoItem, CiscoItemService } from 'src/app/services/cisco-item.service';
-
-// // interface CiscoItem {
-// //   Id: number;
-// //   Site_id: number;
-// //   District_Name: string;
-// //   Item_name: string;
-// //   Old_serial_no: string;
-// //   New_serial_no: string;
-// //   HDMS_tiket_no: string;
-// //   Remark: string;
-// //   Tiket_status: string; // ✅ Make sure this line exists
-// //   Request_no: string;
-// //   RMA_no: string;
-// //   Is_active: boolean;
-// //   Is_delete: boolean;
-// //   last_modified: string;
-// //   Created_on: string;
-// //   User_Name: string;
-// //   User_No: string;
-// //   Ip_Address: string;
-// //   Engineer_name: string;
-// //   Engineer_mobileno: string;
-// //   Chnage_orderno: string;
-// //   System_id: string;
-// // }
-
-// @Component({
-//   selector: 'app-cisco-item',
-//   templateUrl: './cisco-item.component.html',
-//   styleUrls: ['./cisco-item.component.css']
-// })
-// export class CiscoItemComponent implements OnInit{
-//   items: CiscoItem[] = [];
-//   selectedItem: CiscoItem | null = null;
-
-//   itemForm!: FormGroup;
-//   isEdit = false;
-//   currentItemId: number | null = null;
-// searchText: string = '';
-  
-//    constructor(
-//     private service: CiscoItemService,
-//     private fb: FormBuilder
-//    ) {}
-
-//   ngOnInit(): void {
-//     this.itemForm = this.fb.group({
-//       name: [''],
-//       description: ['']
-      
-//     });
-//     this.getAllItems();
-//   }
-  
-//   getAllItems() {
-//     this.service.getItems().subscribe(data => this.items = data);
-//     }
-
-//     onSubmit() {
-//       // const formData = this.itemForm.value;
-// if (this.selectedItem?.Id) {
-//   this.service.updateItem(this.selectedItem.Id, this.selectedItem).subscribe(() => {
-//     this.getAllItems();
-//     this.resetForm();
-//   });
-// }else {
-//     this.service.createItem(this.selectedItem!).subscribe(() => {
-//       this.getAllItems();
-//       this.selectedItem= null;
-//     });
-//   }
-// }
-//   onCancel() {
-//   this.selectedItem = null;
-//  }
-
-    
-//     onEdit(item: CiscoItem) {
-//       // this.isEdit = true;
-//       // this.currentItemId = item.id;
-//       // this.itemForm.patchValue(item)
-//       this.selectedItem = { ...item }; 
-//     }
-//     onDelete(id: number) {
-//       if (confirm('Are you sure to delete this item?')) {
-//         this.service.deleteItem(id).subscribe(() => {
-//           this.getAllItems();
-//       });
-//     }
-//   }
-//   resetForm() {
-//     this.itemForm.reset();
-//     this.isEdit = false;
-//     this.currentItemId = null;
-//   }
-// }

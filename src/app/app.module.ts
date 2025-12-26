@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ShqComponent } from './component/shq/shq.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { FilterPipeModule } from 'ngx-filter-pipe';
 
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
@@ -42,6 +43,9 @@ import { BlockSiteShiftReportComponent } from './component/block-site-shift-repo
 
 // Services
 import { ReplaceComplaintItemService } from './services/replace-complaint-item.service';
+import { DistrictInventoryReportComponent } from './district-inventory-report/district-inventory-report.component';
+import { BlockInventoryReportComponent } from './block-inventory-report/block-inventory-report.component';
+import { CiscoItemReplaceComponent } from './cisco-item-replace/cisco-item-replace.component';
 
 
 @NgModule({
@@ -69,6 +73,10 @@ import { ReplaceComplaintItemService } from './services/replace-complaint-item.s
     CiscoItemReportComponent,
     SiteShiftReportComponent,
     BlockSiteShiftReportComponent,
+    DistrictInventoryReportComponent,
+    BlockInventoryReportComponent,
+    CiscoItemReplaceComponent,
+    
     
    
   ],
@@ -87,6 +95,7 @@ import { ReplaceComplaintItemService } from './services/replace-complaint-item.s
     MatSelectModule,
     MatPaginatorModule,
     NgxPaginationModule,
+    
   ],
   providers: [ReplaceComplaintItemService],
   bootstrap: [AppComponent],

@@ -1,0 +1,71 @@
+<div class="container mt-3">
+  <h4>Replace Complaint Item</h4>
+
+  <table class="table table-borderless">
+    <tr>
+      <td>Site Id</td>
+      <td>{{ item.Site_id }}</td>
+    </tr>
+    <tr>
+      <td>District Name</td>
+      <td>{{ item.District_Name }}</td>
+    </tr>
+    <tr>
+      <td>Block Name</td>
+      <td>{{ item.Block_name }}</td>
+    </tr>
+    <tr>
+      <td>Department / Office / Type</td>
+      <td>{{ item.Department_name }}</td>
+    </tr>
+    <tr>
+      <td>Item Name</td>
+      <td>{{ item.Item_name }}</td>
+    </tr>
+  </table>
+
+  <div class="row">
+    <div class="col-md-6 mb-2">
+      <label>Item Type</label>
+      <select class="form-control" [(ngModel)]="item.Item_Type">
+        <option>CISCO</option>
+      </select>
+    </div>
+
+    <div class="col-md-6 mb-2">
+      <label>HDMS Ticket No</label>
+      <input class="form-control" [(ngModel)]="item.HDMS_tiket_no">
+    </div>
+
+    <div class="col-md-6 mb-2">
+      <label>Remark</label>
+      <select class="form-control" [(ngModel)]="item.Remark">
+        <option>Equipment Faulty</option>
+        <option>Equipment Required to Replace</option>
+      </select>
+    </div>
+
+    <div class="col-md-6 mb-2">
+      <label>CISCO RMA No</label>
+      <input class="form-control" [(ngModel)]="item.RMA_no">
+    </div>
+
+    <div class="col-md-6 mb-2">
+      <label>Faulty (Old) Item Serial No</label>
+      <input class="form-control" [(ngModel)]="item.Old_serial_no">
+    </div>
+
+    <div class="col-md-6 mb-2">
+      <label>Replaced (New) Item Serial No</label>
+      <input class="form-control" [(ngModel)]="item.New_serial_no">
+    </div>
+
+    <div class="col-md-6 mb-2">
+      <label>Change Order No (HDMS)</label>
+      <input class="form-control" [(ngModel)]="item.Chnage_orderno">
+    </div>
+  </div>
+
+  <button class="btn btn-success me-2" (click)="save()">Save</button>
+  <button class="btn btn-secondary" (click)="back()">Back</button>
+</div>

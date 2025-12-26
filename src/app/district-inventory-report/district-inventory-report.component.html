@@ -1,0 +1,414 @@
+<div class="container-fluid p-3">
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Show District Inventory Vertical Item Status Report</h4>
+    <div class="d-flex align-items-center gap-3">
+      <div>
+        <label class="me-2">Show</label>
+        <select class="form-select form-select-sm d-inline-block" style="width: auto;" [(ngModel)]="pageSize" (change)="currentPage = 1">
+          <option [value]="10">10</option>
+          <option [value]="25">25</option>
+          <option [value]="50">50</option>
+          <option [value]="100">100</option>
+        </select>
+        <span class="ms-2">records per page</span>
+      </div>
+      <div>
+        <label class="me-2">Search:</label>
+        <input 
+          type="text" 
+          class="form-control form-control-sm d-inline-block" 
+          style="width: 200px;" 
+          [(ngModel)]="searchText" 
+          (input)="applySearch()"
+          placeholder="Search...">
+      </div>
+    </div>
+  </div>
+
+  <!-- Back Button (only in block view) -->
+  <div class="mb-3" *ngIf="showBlockView">
+    <button class="btn btn-secondary btn-sm" (click)="goBack()">Back</button>
+  </div>
+
+  <!-- Loading Indicator -->
+  <div *ngIf="loading" class="text-center p-5">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <!-- District View Table -->
+  <div *ngIf="!loading && !showBlockView" class="table-responsive">
+    <table class="table table-bordered table-hover table-sm" style="font-size: 0.85rem;">
+      <thead class="table-light">
+        <tr>
+          <th rowspan="2">Sr No.</th>
+          <th rowspan="2">District</th>
+          
+          <!-- Router -->
+          <th colspan="3">Router</th>
+          
+          <!-- IP Phone -->
+          <th colspan="3">IP Phone</th>
+          
+          <!-- LAN Switch -->
+          <th colspan="3">LAN Switch</th>
+          
+          <!-- Modem (G.703) -->
+          <th colspan="3">Modem (G.703)</th>
+          
+          <!-- Modem (V.35) -->
+          <th colspan="3">Modem (V.35)</th>
+          
+          <!-- Closed Rack -->
+          <th colspan="3">Closed Rack</th>
+          
+          <!-- AC -->
+          <th colspan="3">AC</th>
+          
+          <!-- stabilizer -->
+          <th colspan="3">steplizer</th>
+          
+          <!-- UPS -->
+          <th colspan="3">UPS</th>
+          
+          <!-- OVCD -->
+          <th colspan="3">OVCD</th>
+          
+          <!-- Battery -->
+          <th colspan="3">Battery</th>
+          
+          <!-- Monitor -->
+          <th colspan="3">Moniter</th>
+          
+          <!-- CPU -->
+          <th colspan="3">CPU</th>
+          
+          <!-- Keyboard -->
+          <th colspan="3">Keyboard</th>
+          
+          <!-- Mouse -->
+          <th colspan="3">Mouse</th>
+          
+          <!-- Webcam -->
+          <th colspan="3">Webcam with Web-based Surveillance Software</th>
+          
+          <!-- Voice Gateway -->
+          <th colspan="3">Voice Gateway</th>
+          
+          <!-- DG Set -->
+          <th colspan="3">DG Set</th>
+        </tr>
+        <tr>
+          <!-- Sub-headers for each item type -->
+          <ng-container *ngFor="let item of ['Router', 'IP Phone', 'LAN Switch', 'Modem (G.703)', 'Modem (V.35)', 'Closed Rack', 'AC', 'steplizer', 'UPS', 'OVCD', 'Battery', 'Moniter', 'CPU', 'Keyboard', 'Mouse', 'Webcam with Web-based Surveillance Software', 'Voice Gateway', 'DG Set']">
+            <th>Total</th>
+            <th>Working</th>
+            <th>Not Working</th>
+          </ng-container>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of paginatedDistrictData; let i = index" 
+            style="cursor: pointer;" 
+            (click)="onDistrictClick(item)"
+            class="table-row-hover">
+          <td>{{ (currentPage - 1) * pageSize + i + 1 }}</td>
+          <td><strong>{{ item.District_Name || item.District || item.district_name || item.district }}</strong></td>
+          
+          <!-- Router -->
+          <td>{{ getItemTotal(item, 'Router') }}</td>
+          <td>{{ getItemWorking(item, 'Router') }}</td>
+          <td>{{ getItemNotWorking(item, 'Router') }}</td>
+          
+          <!-- IP Phone -->
+          <td>{{ getItemTotal(item, 'IPPhone') }}</td>
+          <td>{{ getItemWorking(item, 'IPPhone') }}</td>
+          <td>{{ getItemNotWorking(item, 'IPPhone') }}</td>
+          
+          <!-- LAN Switch -->
+          <td>{{ getItemTotal(item, 'LANSwitch') }}</td>
+          <td>{{ getItemWorking(item, 'LANSwitch') }}</td>
+          <td>{{ getItemNotWorking(item, 'LANSwitch') }}</td>
+          
+          <!-- Modem (G.703) -->
+          <td>{{ getItemTotal(item, 'ModemG703') || getItemTotal(item, 'Modem_G703') || 0 }}</td>
+          <td>{{ getItemWorking(item, 'ModemG703') || getItemWorking(item, 'Modem_G703') || 0 }}</td>
+          <td>{{ getItemNotWorking(item, 'ModemG703') || getItemNotWorking(item, 'Modem_G703') || 0 }}</td>
+          
+          <!-- Modem (V.35) -->
+          <td>{{ getItemTotal(item, 'ModemV35') || getItemTotal(item, 'Modem_V35') || 0 }}</td>
+          <td>{{ getItemWorking(item, 'ModemV35') || getItemWorking(item, 'Modem_V35') || 0 }}</td>
+          <td>{{ getItemNotWorking(item, 'ModemV35') || getItemNotWorking(item, 'Modem_V35') || 0 }}</td>
+          
+          <!-- Closed Rack -->
+          <td>{{ getClosedRackTotal(item) }}</td>
+          <td>{{ getClosedRackNoProblem(item) }}</td>
+          <td>{{ getClosedRackProblem(item) }}</td>
+          
+          <!-- AC -->
+          <td>{{ getItemTotal(item, 'AC') }}</td>
+          <td>{{ getItemWorking(item, 'AC') }}</td>
+          <td>{{ getItemNotWorking(item, 'AC') }}</td>
+          
+          <!-- stabilizer -->
+          <td>{{ getItemTotal(item, 'steplizer') }}</td>
+          <td>{{ getItemWorking(item, 'steplizer') }}</td>
+          <td>{{ getItemNotWorking(item, 'steplizer') }}</td>
+          
+          <!-- UPS -->
+          <td>{{ getItemTotal(item, 'UPS') }}</td>
+          <td>{{ getItemWorking(item, 'UPS') }}</td>
+          <td>{{ getItemNotWorking(item, 'UPS') }}</td>
+          
+          <!-- OVCD -->
+          <td>{{ getItemTotal(item, 'OVCD') }}</td>
+          <td>{{ getItemWorking(item, 'OVCD') }}</td>
+          <td>{{ getItemNotWorking(item, 'OVCD') }}</td>
+          
+          <!-- Battery -->
+          <td>{{ getItemTotal(item, 'Battery') }}</td>
+          <td>{{ getItemWorking(item, 'Battery') }}</td>
+          <td>{{ getItemNotWorking(item, 'Battery') }}</td>
+          
+          <!-- Monitor -->
+          <td>{{ getItemTotal(item, 'Moniter') }}</td>
+          <td>{{ getItemWorking(item, 'Moniter') }}</td>
+          <td>{{ getItemNotWorking(item, 'Moniter') }}</td>
+          
+          <!-- CPU -->
+          <td>{{ getItemTotal(item, 'CPU') }}</td>
+          <td>{{ getItemWorking(item, 'CPU') }}</td>
+          <td>{{ getItemNotWorking(item, 'CPU') }}</td>
+          
+          <!-- Keyboard -->
+          <td>{{ getItemTotal(item, 'Keyboard') }}</td>
+          <td>{{ getItemWorking(item, 'Keyboard') }}</td>
+          <td>{{ getItemNotWorking(item, 'Keyboard') }}</td>
+          
+          <!-- Mouse -->
+          <td>{{ getItemTotal(item, 'Mouse') }}</td>
+          <td>{{ getItemWorking(item, 'Mouse') }}</td>
+          <td>{{ getItemNotWorking(item, 'Mouse') }}</td>
+          
+          <!-- Webcam -->
+          <td>{{ getItemTotal(item, 'Webcam') }}</td>
+          <td>{{ getItemWorking(item, 'Webcam') }}</td>
+          <td>{{ getItemNotWorking(item, 'Webcam') }}</td>
+          
+          <!-- Voice Gateway -->
+          <td>{{ getItemTotal(item, 'VoiceGateway') }}</td>
+          <td>{{ getItemWorking(item, 'VoiceGateway') }}</td>
+          <td>{{ getItemNotWorking(item, 'VoiceGateway') }}</td>
+          
+          <!-- DG Set -->
+          <td>{{ getItemTotal(item, 'DGSet') || getItemTotal(item, 'DG') }}</td>
+          <td>{{ getItemWorking(item, 'DGSet') || getItemWorking(item, 'DG') }}</td>
+          <td>{{ getItemNotWorking(item, 'DGSet') || getItemNotWorking(item, 'DG') }}</td>
+        </tr>
+        <tr *ngIf="paginatedDistrictData.length === 0">
+          <td colspan="56" class="text-center py-3">No records found</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Block View Table -->
+  <div *ngIf="!loading && showBlockView" class="table-responsive">
+    <h5 class="mb-3">{{ selectedDistrict }} - Block Inventory Status</h5>
+    <table class="table table-bordered table-hover table-sm" style="font-size: 0.85rem;">
+      <thead class="table-light">
+        <tr>
+          <th rowspan="2">Sr No.</th>
+          <th rowspan="2">Vid</th>
+          <th rowspan="2">District</th>
+          <th rowspan="2">Block Name</th>
+          
+          <!-- Router -->
+          <th colspan="3">Router</th>
+          
+          <!-- IP Phone -->
+          <th colspan="3">IP Phone</th>
+          
+          <!-- LAN Switch -->
+          <th colspan="3">LAN Switch</th>
+          
+          <!-- Modem (G.703) -->
+          <th colspan="3">Modem (G.703)</th>
+          
+          <!-- Modem (V.35) -->
+          <th colspan="3">Modem (V.35)</th>
+          
+          <!-- Closed Rack -->
+          <th colspan="3">Closed Rack</th>
+          
+          <!-- AC -->
+          <th colspan="3">AC</th>
+          
+          <!-- stabilizer -->
+          <th colspan="3">steplizer</th>
+          
+          <!-- UPS -->
+          <th colspan="3">UPS</th>
+          
+          <!-- OVCD -->
+          <th colspan="3">OVCD</th>
+          
+          <!-- Battery -->
+          <th colspan="3">Battery</th>
+          
+          <!-- Monitor -->
+          <th colspan="3">Moniter</th>
+          
+          <!-- CPU -->
+          <th colspan="3">CPU</th>
+          
+          <!-- Keyboard -->
+          <th colspan="3">Keyboard</th>
+          
+          <!-- Mouse -->
+          <th colspan="3">Mouse</th>
+          
+          <!-- Webcam -->
+          <th colspan="3">Webcam with Web-based Surveillance Software</th>
+          
+          <!-- Voice Gateway -->
+          <th colspan="3">Voice Gateway</th>
+          
+          <!-- DG Set -->
+          <th colspan="3">DG Set</th>
+        </tr>
+        <tr>
+          <!-- Sub-headers for each item type -->
+          <ng-container *ngFor="let item of ['Router', 'IP Phone', 'LAN Switch', 'Modem (G.703)', 'Modem (V.35)', 'Closed Rack', 'AC', 'steplizer', 'UPS', 'OVCD', 'Battery', 'Moniter', 'CPU', 'Keyboard', 'Mouse', 'Webcam with Web-based Surveillance Software', 'Voice Gateway', 'DG Set']">
+            <th>Total</th>
+            <th>Working</th>
+            <th>Not Working</th>
+          </ng-container>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of paginatedBlockData; let i = index">
+          <td>{{ (currentPage - 1) * pageSize + i + 1 }}</td>
+          <td>{{ item.Vid || item.vid || '-' }}</td>
+          <td>{{ item.District || item.District_Name || item.district || item.district_name || selectedDistrict }}</td>
+          <td><strong>{{ item.Block_name || item.Block_Name || item.Block || item.block_name || item.block }}</strong></td>
+          
+          <!-- Router -->
+          <td>{{ getItemTotal(item, 'Router') }}</td>
+          <td>{{ getItemWorking(item, 'Router') }}</td>
+          <td>{{ getItemNotWorking(item, 'Router') }}</td>
+          
+          <!-- IP Phone -->
+          <td>{{ getItemTotal(item, 'IPPhone') }}</td>
+          <td>{{ getItemWorking(item, 'IPPhone') }}</td>
+          <td>{{ getItemNotWorking(item, 'IPPhone') }}</td>
+          
+          <!-- LAN Switch -->
+          <td>{{ getItemTotal(item, 'LANSwitch') }}</td>
+          <td>{{ getItemWorking(item, 'LANSwitch') }}</td>
+          <td>{{ getItemNotWorking(item, 'LANSwitch') }}</td>
+          
+          <!-- Modem (G.703) -->
+          <td>{{ getItemTotal(item, 'ModemG703') || getItemTotal(item, 'Modem_G703') || 0 }}</td>
+          <td>{{ getItemWorking(item, 'ModemG703') || getItemWorking(item, 'Modem_G703') || 0 }}</td>
+          <td>{{ getItemNotWorking(item, 'ModemG703') || getItemNotWorking(item, 'Modem_G703') || 0 }}</td>
+          
+          <!-- Modem (V.35) -->
+          <td>{{ getItemTotal(item, 'ModemV35') || getItemTotal(item, 'Modem_V35') || 0 }}</td>
+          <td>{{ getItemWorking(item, 'ModemV35') || getItemWorking(item, 'Modem_V35') || 0 }}</td>
+          <td>{{ getItemNotWorking(item, 'ModemV35') || getItemNotWorking(item, 'Modem_V35') || 0 }}</td>
+          
+          <!-- Closed Rack -->
+          <td>{{ getClosedRackTotal(item) }}</td>
+          <td>{{ getClosedRackNoProblem(item) }}</td>
+          <td>{{ getClosedRackProblem(item) }}</td>
+          
+          <!-- AC -->
+          <td>{{ getItemTotal(item, 'AC') }}</td>
+          <td>{{ getItemWorking(item, 'AC') }}</td>
+          <td>{{ getItemNotWorking(item, 'AC') }}</td>
+          
+          <!-- stabilizer -->
+          <td>{{ getItemTotal(item, 'steplizer') }}</td>
+          <td>{{ getItemWorking(item, 'steplizer') }}</td>
+          <td>{{ getItemNotWorking(item, 'steplizer') }}</td>
+          
+          <!-- UPS -->
+          <td>{{ getItemTotal(item, 'UPS') }}</td>
+          <td>{{ getItemWorking(item, 'UPS') }}</td>
+          <td>{{ getItemNotWorking(item, 'UPS') }}</td>
+          
+          <!-- OVCD -->
+          <td>{{ getItemTotal(item, 'OVCD') }}</td>
+          <td>{{ getItemWorking(item, 'OVCD') }}</td>
+          <td>{{ getItemNotWorking(item, 'OVCD') }}</td>
+          
+          <!-- Battery -->
+          <td>{{ getItemTotal(item, 'Battery') }}</td>
+          <td>{{ getItemWorking(item, 'Battery') }}</td>
+          <td>{{ getItemNotWorking(item, 'Battery') }}</td>
+          
+          <!-- Monitor -->
+          <td>{{ getItemTotal(item, 'Moniter') }}</td>
+          <td>{{ getItemWorking(item, 'Moniter') }}</td>
+          <td>{{ getItemNotWorking(item, 'Moniter') }}</td>
+          
+          <!-- CPU -->
+          <td>{{ getItemTotal(item, 'CPU') }}</td>
+          <td>{{ getItemWorking(item, 'CPU') }}</td>
+          <td>{{ getItemNotWorking(item, 'CPU') }}</td>
+          
+          <!-- Keyboard -->
+          <td>{{ getItemTotal(item, 'Keyboard') }}</td>
+          <td>{{ getItemWorking(item, 'Keyboard') }}</td>
+          <td>{{ getItemNotWorking(item, 'Keyboard') }}</td>
+          
+          <!-- Mouse -->
+          <td>{{ getItemTotal(item, 'Mouse') }}</td>
+          <td>{{ getItemWorking(item, 'Mouse') }}</td>
+          <td>{{ getItemNotWorking(item, 'Mouse') }}</td>
+          
+          <!-- Webcam -->
+          <td>{{ getItemTotal(item, 'Webcam') }}</td>
+          <td>{{ getItemWorking(item, 'Webcam') }}</td>
+          <td>{{ getItemNotWorking(item, 'Webcam') }}</td>
+          
+          <!-- Voice Gateway -->
+          <td>{{ getItemTotal(item, 'VoiceGateway') }}</td>
+          <td>{{ getItemWorking(item, 'VoiceGateway') }}</td>
+          <td>{{ getItemNotWorking(item, 'VoiceGateway') }}</td>
+          
+          <!-- DG Set -->
+          <td>{{ getItemTotal(item, 'DGSet') || getItemTotal(item, 'DG') }}</td>
+          <td>{{ getItemWorking(item, 'DGSet') || getItemWorking(item, 'DG') }}</td>
+          <td>{{ getItemNotWorking(item, 'DGSet') || getItemNotWorking(item, 'DG') }}</td>
+        </tr>
+        <tr *ngIf="paginatedBlockData.length === 0">
+          <td colspan="59" class="text-center py-3">No records found</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination and Export -->
+  <div class="d-flex justify-content-between align-items-center mt-3" *ngIf="!loading">
+    <div>
+      <button class="btn btn-success btn-sm" (click)="exportToExcel()">Export To excel</button>
+    </div>
+    <div class="d-flex align-items-center gap-3">
+      <div>
+        Showing {{ startEntry }} to {{ endEntry }} of {{ totalEntries }} entries
+      </div>
+      <div>
+        <pagination-controls
+          (pageChange)="onPageChange($event)"
+          [maxSize]="5"
+          previousLabel="← Previous"
+          nextLabel="Next →">
+        </pagination-controls>
+      </div>
+    </div>
+  </div>
+</div>

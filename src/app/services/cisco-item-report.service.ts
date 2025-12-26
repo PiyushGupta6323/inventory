@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class CiscoItemReportService {
-  private apiUrl = 'http://localhost:5001/api/cisco-report';
+  private apiUrl = `${environment.apiUrl}/cisco-report`;
 
   constructor(private http: HttpClient) {}
 

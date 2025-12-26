@@ -1,12 +1,13 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable, throwError } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VerticalService {
-baseUrl  = 'http://localhost:5001/api/'
+baseUrl = environment.apiUrl;
   constructor(private http: HttpClient) {
     // this.baseUrl = 'http://localhost:3000'
    }
@@ -15,7 +16,7 @@ baseUrl  = 'http://localhost:5001/api/'
     const headers = new HttpHeaders({
         'Content-Type': 'application/json',
     });
-    return this.http.post(`${this.baseUrl}create-item`, data, { headers });
+    return this.http.post(`${this.baseUrl}/create-item`, data, { headers });
   }
   
   addBook(book:any): Observable<any> {
@@ -24,12 +25,12 @@ baseUrl  = 'http://localhost:5001/api/'
       'Content-Type': 'application/json'
     });
   
-    return this.http.post(`${this.baseUrl}book`, book, { headers });
+    return this.http.post(`${this.baseUrl}/book`, book, { headers });
   }
   
   
   getVerticalItems(): Observable<any[]> {
-    return this.http.get<any>(`${this.baseUrl}verticalItems`).pipe(
+    return this.http.get<any>(`${this.baseUrl}/verticalItems`).pipe(
       map((response: any) => response || []) // Access the 'recordset' array
     );
   }

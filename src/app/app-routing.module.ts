@@ -23,6 +23,9 @@ import { CiscoItemReportComponent } from './component/cisco-item-report/cisco-it
 import { SiteShiftRequestStatusComponent } from './component/site-shift-request-status/site-shift-request-status.component';
 import { SiteShiftReportComponent } from './component/site-shift-report/site-shift-report.component';
 import { BlockSiteShiftReportComponent } from './component/block-site-shift-report/block-site-shift-report.component';
+import { DistrictInventoryReportComponent } from './district-inventory-report/district-inventory-report.component';
+import { BlockInventoryReportComponent } from './block-inventory-report/block-inventory-report.component';
+import { CiscoItemReplaceComponent } from './cisco-item-replace/cisco-item-replace.component';
 
 const routes: Routes = [ 
  
@@ -42,10 +45,14 @@ const routes: Routes = [
   { path:  'block-site-shift-report', component: BlockSiteShiftReportComponent },
   { path: 'shifting/block-summary/:districtId', component: BlockSiteShiftReportComponent },
   { path: 'spare-mgmt', component: SpareMgmtComponent },
+  { path: 'district-inventory-report', component: DistrictInventoryReportComponent },
+  { path: 'block-inventory-report/:district', component: BlockInventoryReportComponent },
+
   
   //{ path: '', redirectTo: '/system-item', pathMatch: 'full'}  //Redirect to create/edit path
   { path: 'replace-complaint-item/:siteId', component: ReplaceComplaintItemComponent },
   { path: 'cisco-item', component: CiscoItemComponent },
+  { path: 'cisco-item/replace/:id', component: CiscoItemReplaceComponent },
   { path: 'other-item-inventory-log', component: OtherItemInventoryLogComponent },
   { path: 'cisco-item-inventory-log', component: CiscoItemInventoryLogComponent },
   { path: 'other-item-report', component: OtherItemReportComponent },
@@ -58,7 +65,7 @@ const routes: Routes = [
 
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

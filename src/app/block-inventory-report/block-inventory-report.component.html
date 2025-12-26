@@ -1,0 +1,19 @@
+<h3>{{ district }} - Block Item Status</h3>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Block</th>
+      <th>Item</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let r of data">
+      <td>{{ r.Block_name }}</td>
+      <td>{{ r.Item_name }}</td>
+      <td>{{ r.Tiket_status }}</td>
+    </tr>
+  </tbody>
+</table>

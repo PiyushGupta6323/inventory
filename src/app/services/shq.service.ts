@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
@@ -10,7 +11,7 @@ export class ShqService {
 private baseUrl;
   
   constructor(private http: HttpClient) {
-    this.baseUrl = 'http://localhost:5001/api'
+    this.baseUrl = environment.apiUrl;
    
 }
 getShqData(): Observable<any[]> {

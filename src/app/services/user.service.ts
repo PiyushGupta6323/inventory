@@ -1,12 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  baseUrl = 'http://localhost:5001/api'
+  baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
@@ -34,7 +35,14 @@ export class UserService {
     return this.http.get<any[]>(`${this.baseUrl}/alldistrict`);
   }
 
-  getBlocksByDistrict(distId: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/blockbydistrictid/${distId}`);
+  getBlocksByDistrictId(districtId: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}/blockbydistrictid/${districtId}`);
+  }
+  getDesignation(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/designation`);
+  }
+
+  testDatabase(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/test-db`);
   }
 }

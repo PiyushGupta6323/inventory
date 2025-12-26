@@ -96,11 +96,18 @@ export class MasterItemsComponent implements OnInit {
   }
 
   getMasterItems() {
-    this.masterItemsService.getMasterItems().subscribe(
-      (data: any[]) => {
+    this.masterItemsService.getMasterItems().subscribe({
+      next: (data: any[]) => {
         this.masterItemList = data;
+      },
+      error: (error: HttpErrorResponse) => {
+        console.error('Error fetching master items:', error);
+        if (error.status === 404) {
+          console.error('API endpoint not found. Please ensure the backend server is running on port 5002 and the proxy is configured correctly.');
+        }
+        this.masterItemList = []; // Set empty array on error
       }
-    );
+    });
   }
 
   masterItemsEdit(id: number): void {

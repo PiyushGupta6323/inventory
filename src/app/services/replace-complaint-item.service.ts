@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +37,7 @@ export class ReplaceComplaintItemService {
       })
     );
   }
-  private apiUrl = 'http://localhost:5001/api/replace-item'; // Update with your API endpoint
+  private apiUrl = `${environment.apiUrl}/replace-item`; // Update with your API endpoint
 
   constructor(private http: HttpClient) { }
 
